@@ -5,7 +5,7 @@ public class ConsoleLogger implements Logger {
         System.out.println(message);
     }
 
-    @Override
+    //@Override
     public void logImportant(String message) {
         System.out.println(message);
     }
