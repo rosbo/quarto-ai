@@ -1,6 +1,5 @@
 package edu.ntnu.quartoai.controllers.players;
 
-import edu.ntnu.quartoai.controllers.RandomPlayerController;
 
 public class PlayerFactory {
 
@@ -8,6 +7,8 @@ public class PlayerFactory {
         switch (playerBehaviourString) {
         case 2:
             return new RandomPlayerController(numberOfPlayer);
+        case 3:
+            return new NovicePlayerController(numberOfPlayer);
         default:
             return null;
         }

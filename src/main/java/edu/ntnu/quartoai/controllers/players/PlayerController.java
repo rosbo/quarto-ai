@@ -14,7 +14,9 @@ public abstract class PlayerController {
 
     public abstract Action chooseNextAction(Board board, Piece piece);
 
-    public abstract String getBehaviour();
+    public String getBehaviour(){
+        return "";
+    }
 
     public int getNumberOfThePlayer() {
         return numberOfThePlayer;
@@ -22,6 +24,11 @@ public abstract class PlayerController {
 
     public void setNumberOfThePlayer(int numberOfThePlayer) {
         this.numberOfThePlayer = numberOfThePlayer;
+    }
+    
+    @Override
+    public String toString() {
+        return "Player " + getNumberOfThePlayer() + " (" + this.getBehaviour() + ")";
     }
 
 }

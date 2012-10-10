@@ -3,7 +3,7 @@ package edu.ntnu.quartoai;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import edu.ntnu.quartoai.controllers.players.QuartoController;
+import edu.ntnu.quartoai.controllers.QuartoController;
 import edu.ntnu.quartoai.dependencyinjection.QuartoModule;
 
 public class Main {
