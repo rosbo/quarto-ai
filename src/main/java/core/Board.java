@@ -145,6 +145,7 @@ public class Board {
         return b;
     }
     
+    //added for evaluating the board
     public Piece[][] getBoard(){
         return this.board;
     }
