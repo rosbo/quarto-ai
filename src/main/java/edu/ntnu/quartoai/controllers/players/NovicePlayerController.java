@@ -7,6 +7,7 @@ import core.Action;
 import core.Board;
 import core.Piece;
 import core.Set;
+import edu.ntnu.quartoai.models.Game;
 
 public class NovicePlayerController extends PlayerController {
 
@@ -15,7 +16,9 @@ public class NovicePlayerController extends PlayerController {
     }
 
     @Override
-    public Piece choosePieceToGive(Board board, Set set) {
+    public Piece choosePieceToGive(Game game) {
+        Board board = game.getBoard();
+        Set set = game.getSet();
         Piece pieceToGive = null;
         int x, y;
         List<int[]> freePositions = board.getFreePositions();
@@ -42,7 +45,8 @@ public class NovicePlayerController extends PlayerController {
     }
 
     @Override
-    public Action chooseNextAction(Board board, Piece piece) {
+    public Action chooseNextAction(Game game, Piece piece) {
+        Board board = game.getBoard();
         Action nextAction = null;
         int x, y;
         List<int[]> freePositions = board.getFreePositions();
@@ -72,5 +76,4 @@ public class NovicePlayerController extends PlayerController {
     public String getBehaviour() {
         return "novice";
     }
-
 }

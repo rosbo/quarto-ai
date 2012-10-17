@@ -7,6 +7,7 @@ import core.Action;
 import core.Board;
 import core.Piece;
 import core.Set;
+import edu.ntnu.quartoai.models.Game;
 
 public class RandomPlayerController extends PlayerController {
 
@@ -15,15 +16,17 @@ public class RandomPlayerController extends PlayerController {
     }
 
     @Override
-    public Piece choosePieceToGive(Board board, Set set) {
-        List<Piece> pieces = set.getPieces();
+    public Piece choosePieceToGive(Game game) {
+        Set set = game.getSet();
+        List<Piece> pieces = set.getPieces();        
         Random randomGenerator = new Random();
         int size = pieces.size();
         return pieces.get(randomGenerator.nextInt(size));
     }
 
     @Override
-    public Action chooseNextAction(Board board, Piece piece) {
+    public Action chooseNextAction(Game game, Piece piece) {
+        Board board = game.getBoard();
         Random randomGenerator = new Random();
         List<int[]> freePositions = board.getFreePositions();
         int[] randomPosition = freePositions.get(randomGenerator.nextInt(freePositions.size()));

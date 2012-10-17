@@ -36,10 +36,10 @@ public class GameController {
         PlayerController playerWhoMoves = this.game.getPlayers().get(1);
         Board board = this.game.getBoard();
         Set set = this.game.getSet();
-        Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(board, set);
+        Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(this.game);
         System.out.println(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
         set.remove(pieceChosen);
-        Action actionChosen = playerWhoMoves.chooseNextAction(board, pieceChosen);
+        Action actionChosen = playerWhoMoves.chooseNextAction(this.game, pieceChosen);
         if (!board.isEmpty(actionChosen.x, actionChosen.y)) {
             try {
                 throw new Exception("Wrong position");

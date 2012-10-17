@@ -1,6 +1,8 @@
 package edu.ntnu.quartoai.controllers.players;
 
-import core.*;
+import core.Action;
+import core.Piece;
+import edu.ntnu.quartoai.models.Game;
 
 public abstract class PlayerController {
 
@@ -10,9 +12,9 @@ public abstract class PlayerController {
         this.numberOfThePlayer = number;
     }
 
-    public abstract Piece choosePieceToGive(Board board, Set set);
+    public abstract Piece choosePieceToGive(Game game);
 
-    public abstract Action chooseNextAction(Board board, Piece piece);
+    public abstract Action chooseNextAction(Game game, Piece piece);
 
     public String getBehaviour(){
         return "";
