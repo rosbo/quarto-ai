@@ -15,6 +15,15 @@ public class State {
     private Piece pieceChosen;
     private int[] positionChosen;
     private State next;
+    private int numberOfThePlayer;
+
+    public int getNumberOfThePlayer() {
+        return numberOfThePlayer;
+    }
+
+    public void setNumberOfThePlayer(int numberOfThePlayer) {
+        this.numberOfThePlayer = numberOfThePlayer;
+    }
 
     public State(Board board, Set set) {
         this.board = board;
@@ -24,6 +33,7 @@ public class State {
         this.pieceChosen = null;
         this.positionChosen = null;
         this.next = null;
+        this.numberOfThePlayer = -1;
     }
 
     public List<State> getSuccessors() {

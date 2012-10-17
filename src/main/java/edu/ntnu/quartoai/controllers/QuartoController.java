@@ -108,7 +108,7 @@ public class QuartoController {
                 System.out.println("Game #" + i + " finished with a tie");
             } else {
                 System.out.println("Winner of game #" + i + " is " + winner.toString());
-                results[winner.getNumberOfThePlayer() - 1]++; // we start
+                results[winner.getNumberOfThePlayer()-1]++; // we start
                                                               // indexing the
                                                               // players by one
             }
