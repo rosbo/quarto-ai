@@ -6,6 +6,7 @@ import core.Action;
 import core.Piece;
 import core.Set;
 import edu.ntnu.quartoai.minimax.MinimaxCalculator;
+import edu.ntnu.quartoai.minimax.State;
 import edu.ntnu.quartoai.models.Game;
 
 public class MinimaxPlayerController extends PlayerController {
@@ -29,7 +30,9 @@ public class MinimaxPlayerController extends PlayerController {
         if (set.getPieces().size() > 11 || set.getPieces().size() == 0) {
             return novicePlayerController.choosePieceToGive(game);
         }
-       return this.minimaxCalculator.alphaBetaDecisionForChoosingThePieceToGive(game, depth, getNumberOfThePlayer());
+        State nextState = this.minimaxCalculator.alphaBetaDecision(game, depth,
+                        getNumberOfThePlayer(), false);
+        return nextState.getPieceChosen();
     }
 
     @Override
@@ -38,7 +41,9 @@ public class MinimaxPlayerController extends PlayerController {
         if (set.getPieces().size() > 11 || set.getPieces().size() == 0) {
             return novicePlayerController.chooseNextAction(game, piece);
         }
-        return this.minimaxCalculator.alphaBetaDecisionGivenPiece(game, piece, depth, getNumberOfThePlayer());
+        State nextState = this.minimaxCalculator.alphaBetaDecision(game, depth,
+                        getNumberOfThePlayer(), true);
+        return new Action (nextState.getPieceChosen(),nextState.getPositionChosen()[0],nextState.getPositionChosen()[1]);
     }
 
     @Override

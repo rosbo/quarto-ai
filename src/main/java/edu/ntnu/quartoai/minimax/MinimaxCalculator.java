@@ -20,14 +20,18 @@ public class MinimaxCalculator {
         this.stateEvaluator = stateEvaluator;
     }
 
-    public Piece alphaBetaDecisionForChoosingThePieceToGive(Game game, int depth, int numberOfThePlayer) {
+    public State alphaBetaDecision(Game game, int depth, int numberOfThePlayer,
+                    boolean maximize) {
         Board board = game.getBoard();
         Set set = game.getSet();
         State state = new State(board, set);
         state.setNumberOfThePlayer(numberOfThePlayer);
-        minValue(state, Double.MIN_VALUE, Double.MAX_VALUE, depth,(numberOfThePlayer+1)%2,numberOfThePlayer);
-
-        return state.getNext().getPieceChosen();
+        if (maximize) {
+            maxValue(state, Double.MIN_VALUE, Double.MAX_VALUE, depth, (numberOfThePlayer + 1) % 2, numberOfThePlayer);
+        } else {
+            minValue(state, Double.MIN_VALUE, Double.MAX_VALUE, depth, (numberOfThePlayer + 1) % 2, numberOfThePlayer);
+        }
+        return state.getNext();
     }
 
     public double maxValue(State state, double alpha, double beta, int depth, int numberOfThePlayerPlayingTheState,
@@ -40,7 +44,7 @@ public class MinimaxCalculator {
                                                                   // value
         }
         double v = Double.NEGATIVE_INFINITY;
-        numberOfThePlayerPlayingTheState = (numberOfThePlayerPlayingTheState +1)%2;
+        numberOfThePlayerPlayingTheState = (numberOfThePlayerPlayingTheState + 1) % 2;
         List<State> successors = calculateSuccessors(state, numberOfThePlayerPlayingTheState);
         for (State successor : successors) {
             double minimumValueSuccessors = minValue(successor, alpha, beta, depth--, numberOfThePlayerPlayingTheState,
@@ -67,7 +71,7 @@ public class MinimaxCalculator {
                                                                   // value
         }
         double v = Double.POSITIVE_INFINITY;
-        numberOfThePlayerPlayingTheState = (numberOfThePlayerPlayingTheState +1)%2;
+        numberOfThePlayerPlayingTheState = (numberOfThePlayerPlayingTheState + 1) % 2;
         List<State> successors = calculateSuccessors(state, numberOfThePlayerPlayingTheState);
         for (State successor : successors) {
             double maximumValueOfSuccessor = maxValue(successor, alpha, beta, depth--,
@@ -133,19 +137,5 @@ public class MinimaxCalculator {
         double eval = stateEvaluator.evaluate(state, numberOfThePlayerWhoStarted);
         state.setUtility(eval);
         return eval;
-    }
-
-    public Action alphaBetaDecisionGivenPiece(Game game, Piece piece, int depth, int numberOfThePlayer) {
-        Board board = game.getBoard();
-        Set set = game.getSet();
-        State state = new State(board, set);
-        state.setPieceChosen(piece);
-        state.setNumberOfThePlayer(numberOfThePlayer);
-        maxValue(state, Double.MIN_VALUE, Double.MAX_VALUE, depth, (numberOfThePlayer+1)%2, numberOfThePlayer);
-
-        State nextState = state.getNext();
-        int x = nextState.getPositionChosen()[0];
-        int y = nextState.getPositionChosen()[1];
-        return new Action(piece, x, y);
     }
 }
