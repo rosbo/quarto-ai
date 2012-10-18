@@ -39,7 +39,7 @@ public class GameController {
         }
     }
 
-    public void playNewRound() {
+    private void playNewRound() {
         PlayerController playerWhoChooseThePiece = this.game.getPlayers().get(0);
         PlayerController playerWhoMoves = this.game.getPlayers().get(1);
 

@@ -9,7 +9,7 @@ public abstract class PlayerController {
     private final String behavior;
     private final int numberOfThePlayer;
 
-    public PlayerController(int number, String behavior) {
+    protected PlayerController(int number, String behavior) {
         this.numberOfThePlayer = number;
         this.behavior = behavior;
     }
