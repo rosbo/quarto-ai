@@ -5,7 +5,7 @@ public class ImportantLogger implements Logger {
         // Don't print not important information
     }
 
-    @Override
+    //@Override
     public void logImportant(String message) {
         System.out.println(message);
     }
