@@ -12,7 +12,6 @@ import javax.inject.Inject;
 
 public class GameController {
 
-    private Game game;
     private final Logger logger;
 
     @Inject
@@ -21,7 +20,6 @@ public class GameController {
     }
 
     public void playGame(Game game) {
-        this.game = game;
         int numberOfRounds = 1;
         while (true) {
             if (game.isOver()) {
@@ -33,29 +31,25 @@ public class GameController {
                 break;
             }
             logger.log("Playing Round # " + numberOfRounds);
-            playNewRound();
+            playNewRound(game);
             numberOfRounds++;
-            this.game.swapPlayers();
+            game.swapPlayers();
         }
     }
 
-    private void playNewRound() {
-        PlayerController playerWhoChooseThePiece = this.game.getPlayers().get(0);
-        PlayerController playerWhoMoves = this.game.getPlayers().get(1);
+    private void playNewRound(Game game) {
+        PlayerController playerWhoChooseThePiece = game.getPlayers().get(0);
+        PlayerController playerWhoMoves = game.getPlayers().get(1);
 
-        Board board = this.game.getBoard();
-        Set set = this.game.getSet();
-        Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(this.game);
+        Board board = game.getBoard();
+        Set set = game.getSet();
+        Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(game);
 
         logger.log(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
         set.remove(pieceChosen);
-        Action actionChosen = playerWhoMoves.chooseNextAction(this.game, pieceChosen);
+        Action actionChosen = playerWhoMoves.chooseNextAction(game, pieceChosen);
         if (!board.isEmpty(actionChosen.x, actionChosen.y)) {
-            try {
-                throw new Exception("Wrong position");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            throw new IllegalArgumentException("Wrong position");
         }
         board.setPiece(pieceChosen, actionChosen.x, actionChosen.y);
 

@@ -4,9 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import edu.ntnu.quartoai.controllers.QuartoController;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
-import edu.ntnu.quartoai.controllers.players.PlayerFactory;
+import edu.ntnu.quartoai.controllers.players.PlayerControllerFactory;
 import edu.ntnu.quartoai.dependencyinjection.QuartoModule;
-import edu.ntnu.quartoai.models.PlayerBehavior;
 import org.apache.commons.cli.*;
 
 public class Main {
@@ -15,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new QuartoModule());
         QuartoController quartoController = injector.getInstance(QuartoController.class);
-        PlayerFactory playerFactory = injector.getInstance(PlayerFactory.class);
+        PlayerControllerFactory playerControllerFactory = injector.getInstance(PlayerControllerFactory.class);
 
         Options options = createArgsOptions();
 
@@ -31,8 +30,8 @@ public class Main {
             if (pValues.length != 2) {
                 throw new ParseException("You should provide 2 players");
             } else {
-                player1 = getPlayerFromString(playerFactory, pValues[0], 1);
-                player2 = getPlayerFromString(playerFactory, pValues[1], 2);
+                player1 = getPlayerFromString(playerControllerFactory, pValues[0], 1);
+                player2 = getPlayerFromString(playerControllerFactory, pValues[1], 2);
             }
 
             quartoController.play(player1, player2, numberOfGames);
@@ -43,31 +42,29 @@ public class Main {
         }
     }
 
-    private static PlayerController getPlayerFromString(PlayerFactory playerFactory, String pValue,
+    private static PlayerController getPlayerFromString(PlayerControllerFactory playerControllerFactory, String pValue,
                                                         int number) throws ParseException {
-        PlayerBehavior playerBehavior;
         if (pValue.equals("random")) {
-            playerBehavior = PlayerBehavior.RANDOM;
+            return playerControllerFactory.createRandomPlayerController(number);
         } else if (pValue.equals("novice")) {
-            playerBehavior = PlayerBehavior.NOVICE;
+            return playerControllerFactory.createNovicePlayerController(number);
         } else if (pValue.equals("minimax3")) {
-            playerBehavior = PlayerBehavior.MINIMAX3;
+            return playerControllerFactory.createMinimaxPlayerController(number, 3);
         } else if (pValue.equals("minimax3")) {
-            playerBehavior = PlayerBehavior.MINIMAX4;
+            return playerControllerFactory.createMinimaxPlayerController(number, 4);
+        } else if (pValue.equals("human")) {
+            return playerControllerFactory.createHumanPlayerController(number);
         } else {
             throw new ParseException("Invalid player");
         }
-
-        return playerFactory.getPlayer(playerBehavior, number);
     }
 
     private static Options createArgsOptions() {
         Options options = new Options();
 
         Option playerOption = OptionBuilder.withArgName("PLAYER PLAYER").hasArgs(2).withDescription("PLAYER can be " +
-                "human, " +
-                "random, novice, minimax<D>").isRequired(true).create("p");
-        options.addOption("n", true, "Number of games to play [default: 0]");
+                "human, random, novice, minimax < D > ").isRequired(true).create("p");
+                options.addOption("n", true, "Number of games to play [default: 0]");
         options.addOption(playerOption);
 
         return options;

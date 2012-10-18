@@ -7,5 +7,7 @@ public interface PlayerControllerFactory {
 
     NovicePlayerController createNovicePlayerController(@Assisted("number") Integer number);
 
+    HumanPlayerController createHumanPlayerController(@Assisted("number") Integer number);
+
     MinimaxPlayerController createMinimaxPlayerController(@Assisted("number") Integer number, @Assisted("depth") Integer depth);
 }

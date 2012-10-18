@@ -25,17 +25,12 @@ public class Set {
         // TODO: same output as prof has
         String out = "";
         for (int i = 0; i < pieces.size(); i++) {
-            out += i + ": " + pieces.get(i) + " ";
+            if(i != 0){
+                out += ", ";
+            }
+            out += pieces.get(i) + " ";
         }
         return out;
-    }
-
-    public Piece get(int index) {
-        return pieces.get(index);
-    }
-
-    public int size() {
-        return pieces.size();
     }
 
     public boolean contrains(Piece piece) {
@@ -50,6 +45,7 @@ public class Set {
         return pieces.isEmpty();
     }
 
+    // TODO: Extract in test
     public static void main(String[] args) {
         Set set = new Set();
         Piece p1 = new Piece(true, true, true, true);
