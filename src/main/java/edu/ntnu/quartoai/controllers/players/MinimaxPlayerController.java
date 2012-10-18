@@ -2,9 +2,9 @@ package edu.ntnu.quartoai.controllers.players;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import core.Action;
-import core.Piece;
-import core.Set;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Piece;
+import edu.ntnu.quartoai.models.Set;
 import edu.ntnu.quartoai.minimax.MinimaxCalculator;
 import edu.ntnu.quartoai.minimax.State;
 import edu.ntnu.quartoai.models.Game;

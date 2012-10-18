@@ -1,7 +1,5 @@
 package edu.ntnu.quartoai.models;
 
-import core.Board;
-import core.Set;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
 
 import java.util.List;

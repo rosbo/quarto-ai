@@ -1,9 +1,9 @@
 package edu.ntnu.quartoai.controllers;
 
-import core.Action;
-import core.Board;
-import core.Piece;
-import core.Set;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Board;
+import edu.ntnu.quartoai.models.Piece;
+import edu.ntnu.quartoai.models.Set;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
 import edu.ntnu.quartoai.models.Game;
 import edu.ntnu.quartoai.utils.Logger;

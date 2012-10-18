@@ -1,7 +1,7 @@
 package edu.ntnu.quartoai.controllers.players;
 
-import core.Action;
-import core.Piece;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Piece;
 import edu.ntnu.quartoai.models.Game;
 
 public abstract class PlayerController {

@@ -1,4 +1,4 @@
-package core;
+package edu.ntnu.quartoai.models;
 
 public class Action {
 

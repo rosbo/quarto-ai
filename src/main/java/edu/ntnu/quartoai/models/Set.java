@@ -1,4 +1,4 @@
-package core;
+package edu.ntnu.quartoai.models;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,6 @@ public class Set {
 
     @Override
     public String toString() {
-        // TODO: same output as prof has
         String out = "";
         for (int i = 0; i < pieces.size(); i++) {
             if(i != 0){
@@ -43,15 +42,6 @@ public class Set {
 
     public boolean isEmpty() {
         return pieces.isEmpty();
-    }
-
-    // TODO: Extract in test
-    public static void main(String[] args) {
-        Set set = new Set();
-        Piece p1 = new Piece(true, true, true, true);
-        Piece p2 = new Piece(true, true, true, true);
-        set.remove(p1);
-        System.out.println(set.contrains(p2));
     }
 
     public ArrayList<Piece> getPieces() {

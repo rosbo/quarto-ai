@@ -1,8 +1,8 @@
 package edu.ntnu.quartoai.controllers.players;
 
 import com.google.inject.assistedinject.Assisted;
-import core.Action;
-import core.Piece;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Piece;
 import edu.ntnu.quartoai.models.Game;
 import edu.ntnu.quartoai.utils.Logger;
 

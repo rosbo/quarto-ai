@@ -1,6 +1,6 @@
 package edu.ntnu.quartoai.minimax;
 
-import core.Board;
+import edu.ntnu.quartoai.models.Board;
 
 public class StateEvaluator {
 
