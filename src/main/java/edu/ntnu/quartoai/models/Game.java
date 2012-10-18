@@ -1,25 +1,26 @@
 package edu.ntnu.quartoai.models;
 
-import java.util.List;
-import core.*;
-
+import core.Board;
+import core.Set;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
 
+import java.util.List;
+
 public class Game {
-    
+
     private List<PlayerController> players;
     private Board board;
     private Set set;
     private PlayerController winner;
 
-    public Game(List<PlayerController> players) {        
+    public Game(List<PlayerController> players) {
         this.players = players;
         this.board = new Board();
         this.set = new Set();
         this.winner = null;
     }
-     
-    public boolean isOver(){
+
+    public boolean isOver() {
         return this.board.gameOver();
     }
 
@@ -30,8 +31,8 @@ public class Game {
     public void setPlayers(List<PlayerController> players) {
         this.players = players;
     }
-    
-    public List<PlayerController> swapPlayers(){
+
+    public List<PlayerController> swapPlayers() {
         PlayerController player1 = this.players.get(0);
         this.players.remove(0);
         PlayerController player2 = this.players.get(0);
@@ -48,12 +49,12 @@ public class Game {
     public void setSet(Set set) {
         this.set = set;
     }
-    
-    public void setBoard(Board board){
+
+    public void setBoard(Board board) {
         this.board = board;
     }
-    
-    public Board getBoard(){
+
+    public Board getBoard() {
         return this.board;
     }
 

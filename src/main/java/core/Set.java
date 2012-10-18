@@ -12,7 +12,7 @@ public class Set {
             String binaryString = "000" + Integer.toBinaryString(i);
             binaryString = binaryString.substring(binaryString.length() - 4, binaryString.length());
             pieces.add(new Piece(binaryString.charAt(0) == '0', binaryString.charAt(1) == '0',
-                            binaryString.charAt(2) == '0', binaryString.charAt(3) == '0'));
+                    binaryString.charAt(2) == '0', binaryString.charAt(3) == '0'));
         }
     }
 

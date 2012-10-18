@@ -16,7 +16,7 @@ public abstract class PlayerController {
 
     public abstract Action chooseNextAction(Game game, Piece piece);
 
-    public String getBehaviour(){
+    public String getBehaviour() {
         return "";
     }
 
@@ -27,7 +27,7 @@ public abstract class PlayerController {
     public void setNumberOfThePlayer(int numberOfThePlayer) {
         this.numberOfThePlayer = numberOfThePlayer;
     }
-    
+
     @Override
     public String toString() {
         return "Player " + getNumberOfThePlayer() + " (" + this.getBehaviour() + ")";

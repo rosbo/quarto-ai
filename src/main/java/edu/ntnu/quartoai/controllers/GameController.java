@@ -1,8 +1,11 @@
 package edu.ntnu.quartoai.controllers;
 
+import core.Action;
+import core.Board;
+import core.Piece;
+import core.Set;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
 import edu.ntnu.quartoai.models.Game;
-import core.*;
 
 public class GameController {
 
@@ -18,14 +21,14 @@ public class GameController {
         while (true) {
             if (game.isOver()) {
                 game.setWinner(game.getPlayers().get(0));// the first player
-                                                         // moved the piece
+                // moved the piece
                 break;
             }
             if (game.getSet().isEmpty()) {
                 break;
             }
             System.out.println("Playing Round # " + numberOfRounds);
-            playNewRound();         
+            playNewRound();
             numberOfRounds++;
             this.game.swapPlayers();
         }
@@ -48,7 +51,7 @@ public class GameController {
             }
         }
         board.setPiece(pieceChosen, actionChosen.x, actionChosen.y);
-        System.out.println(playerWhoMoves.toString() + " moves it in " + actionChosen.x + ","+actionChosen.y);
+        System.out.println(playerWhoMoves.toString() + " moves it in " + actionChosen.x + "," + actionChosen.y);
         System.out.println(board.toString());
     }
 }

@@ -1,17 +1,17 @@
 package edu.ntnu.quartoai.minimax;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import core.Board;
 import core.Piece;
 import core.Set;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class State {
     private Board board;
     private Set set;
     private List<State> successors;
-    private double utility;    
+    private double utility;
     private Piece pieceChosen;
     private int[] positionChosen;
     private State next;
@@ -72,16 +72,18 @@ public class State {
     public Set getSet() {
         return set;
     }
-    
+
     @Override
-    public String toString(){
-        String result = "State: \n Board:\n"+this.board.toString()+"Set:\n"+set.toString()+"Number of Successors:\n"+this.successors.size();
+    public String toString() {
+        String result = "State: \n Board:\n" + this.board.toString() + "Set:\n" + set.toString() + "Number of " +
+                "Successors:\n" + this.successors.size();
         return result;
     }
 
-    public String printAll(){
-        String result = "State: \n Board:\n"+this.board.toString()+"Set:\n"+set.toString()+"Number of Successors:\n"+this.successors.size();
-        for(State node : this.successors){
+    public String printAll() {
+        String result = "State: \n Board:\n" + this.board.toString() + "Set:\n" + set.toString() + "Number of " +
+                "Successors:\n" + this.successors.size();
+        for (State node : this.successors) {
             result = result + "\n" + node.printAll();
         }
         return result;

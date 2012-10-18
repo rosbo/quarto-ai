@@ -1,15 +1,15 @@
 package edu.ntnu.quartoai.controllers;
 
+import com.google.inject.Inject;
+import edu.ntnu.quartoai.controllers.players.PlayerController;
+import edu.ntnu.quartoai.controllers.players.PlayerFactory;
+import edu.ntnu.quartoai.models.Game;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.inject.Inject;
-
-import edu.ntnu.quartoai.controllers.players.PlayerController;
-import edu.ntnu.quartoai.controllers.players.PlayerFactory;
-import edu.ntnu.quartoai.models.Game;
 
 public class QuartoController {
 
@@ -19,7 +19,7 @@ public class QuartoController {
     private final PlayerFactory playerFactory;
 
     @Inject
-    public QuartoController(final GameController gameController,final PlayerFactory playerFactory) {
+    public QuartoController(final GameController gameController, final PlayerFactory playerFactory) {
         this.gameController = gameController;
         this.playerFactory = playerFactory;
     }
@@ -33,7 +33,8 @@ public class QuartoController {
         // TODO: change syso into console logger
         // TODO: implement a better command pattern
         System.out.println("WELCOME TO QUARTO GAME");
-        System.out.println("\n Choose Player 1: Click 1 for human, 2 for random, 3 for novice, 4 for minimax3, 5 for minimax4");
+        System.out.println("\n Choose Player 1: Click 1 for human, 2 for random, 3 for novice, 4 for minimax3, " +
+                "5 for minimax4");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         PlayerController player1 = null;
         PlayerController player2 = null;
@@ -42,10 +43,10 @@ public class QuartoController {
         boolean correct = false;
         while (!correct) {
             try {
-                userInputString = br.readLine();               
+                userInputString = br.readLine();
                 if (userInputString == null) {
                     System.out.println("Insert a value");
-                }                
+                }
                 userInput = new Integer(userInputString);
                 player1 = playerFactory.getPlayer(userInput, 1);
                 if (player1 == null) {
@@ -62,16 +63,17 @@ public class QuartoController {
             }
         }
         System.out.println(player1.toString());
-        System.out.println("\n Choose Player 2: Click 1 for human, 2 for random, 3 for novice, 4 for minimax3, 5 for minimax4");
+        System.out.println("\n Choose Player 2: Click 1 for human, 2 for random, 3 for novice, 4 for minimax3, " +
+                "5 for minimax4");
 
         userInput = null;
         correct = false;
         while (!correct) {
             try {
-                userInputString = br.readLine();               
+                userInputString = br.readLine();
                 if (userInputString == null) {
                     System.out.println("Insert a value");
-                }                
+                }
                 userInput = new Integer(userInputString);
                 player2 = playerFactory.getPlayer(userInput, 2);
                 if (player2 == null) {
@@ -99,7 +101,7 @@ public class QuartoController {
         results[1] = 0;
         results[2] = 0;
         for (int i = 0; i < numberOfGames; i++) {
-            Game game = new Game(players);            
+            Game game = new Game(players);
             gameController.playGame(game);
             PlayerController winner = game.getWinner();
             if (winner == null) {
@@ -108,9 +110,9 @@ public class QuartoController {
                 System.out.println("Game #" + i + " finished with a tie");
             } else {
                 System.out.println("Winner of game #" + i + " is " + winner.toString());
-                results[winner.getNumberOfThePlayer()-1]++; // we start
-                                                              // indexing the
-                                                              // players by one
+                results[winner.getNumberOfThePlayer() - 1]++; // we start
+                // indexing the
+                // players by one
             }
         }
 

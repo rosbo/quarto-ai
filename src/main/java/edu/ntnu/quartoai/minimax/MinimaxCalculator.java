@@ -1,15 +1,13 @@
 package edu.ntnu.quartoai.minimax;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
-
-import core.Action;
 import core.Board;
 import core.Piece;
 import core.Set;
 import edu.ntnu.quartoai.models.Game;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MinimaxCalculator {
 
@@ -21,7 +19,7 @@ public class MinimaxCalculator {
     }
 
     public State alphaBetaDecision(Game game, int depth, int numberOfThePlayer,
-                    boolean maximize) {
+                                   boolean maximize) {
         Board board = game.getBoard();
         Set set = game.getSet();
         State state = new State(board, set);
@@ -35,20 +33,20 @@ public class MinimaxCalculator {
     }
 
     public double maxValue(State state, double alpha, double beta, int depth, int numberOfThePlayerPlayingTheState,
-                    int numberOfThePlayerWhoStarted) {
+                           int numberOfThePlayerWhoStarted) {
         Board board = state.getBoard();
         Set set = state.getSet();
         if (board.gameOver() || board.getFreePositions().size() == 0 || set.getPieces().size() == 0 || depth == 0) {
             return evalState(state, numberOfThePlayerWhoStarted); // return
-                                                                  // utility
-                                                                  // value
+            // utility
+            // value
         }
         double v = Double.NEGATIVE_INFINITY;
         numberOfThePlayerPlayingTheState = (numberOfThePlayerPlayingTheState + 1) % 2;
         List<State> successors = calculateSuccessors(state, numberOfThePlayerPlayingTheState);
         for (State successor : successors) {
             double minimumValueSuccessors = minValue(successor, alpha, beta, depth--, numberOfThePlayerPlayingTheState,
-                            numberOfThePlayerWhoStarted);
+                    numberOfThePlayerWhoStarted);
             if (minimumValueSuccessors > v) {
                 v = minimumValueSuccessors;
                 state.setNext(successor);
@@ -62,20 +60,20 @@ public class MinimaxCalculator {
     }
 
     public double minValue(State state, double alpha, double beta, int depth, int numberOfThePlayerPlayingTheState,
-                    int numberOfThePlayerWhoStarted) {
+                           int numberOfThePlayerWhoStarted) {
         Board board = state.getBoard();
         Set set = state.getSet();
         if (board.gameOver() || board.getFreePositions().size() == 0 || set.getPieces().size() == 0 || depth == 0) {
             return evalState(state, numberOfThePlayerWhoStarted); // return
-                                                                  // utility
-                                                                  // value
+            // utility
+            // value
         }
         double v = Double.POSITIVE_INFINITY;
         numberOfThePlayerPlayingTheState = (numberOfThePlayerPlayingTheState + 1) % 2;
         List<State> successors = calculateSuccessors(state, numberOfThePlayerPlayingTheState);
         for (State successor : successors) {
             double maximumValueOfSuccessor = maxValue(successor, alpha, beta, depth--,
-                            numberOfThePlayerPlayingTheState, numberOfThePlayerWhoStarted);
+                    numberOfThePlayerPlayingTheState, numberOfThePlayerWhoStarted);
             if (maximumValueOfSuccessor < v) {
                 v = maximumValueOfSuccessor;
                 state.setNext(successor);

@@ -3,10 +3,6 @@ package core;
 import java.util.HashSet;
 
 public class Piece {
-    public enum ATTRIBUTES {
-        BIG, RED, SQUARE, SOLID;
-    }
-
     boolean[] attributes = new boolean[4];
 
     public Piece(boolean big, boolean red, boolean square, boolean solid) {
@@ -28,7 +24,7 @@ public class Piece {
         Piece that = (Piece) o;
 
         if (this.attributes[0] == that.attributes[0] && this.attributes[1] == that.attributes[1]
-                        && this.attributes[2] == that.attributes[2] && this.attributes[3] == that.attributes[3]) {
+                && this.attributes[2] == that.attributes[2] && this.attributes[3] == that.attributes[3]) {
             return true;
         }
         return false;
@@ -110,7 +106,7 @@ public class Piece {
             String binaryString = "000" + Integer.toBinaryString(i);
             binaryString = binaryString.substring(binaryString.length() - 4, binaryString.length());
             ret.add(new Piece(binaryString.charAt(0) == '0', binaryString.charAt(1) == '0',
-                            binaryString.charAt(2) == '0', binaryString.charAt(3) == '0'));
+                    binaryString.charAt(2) == '0', binaryString.charAt(3) == '0'));
         }
         return ret;
     }

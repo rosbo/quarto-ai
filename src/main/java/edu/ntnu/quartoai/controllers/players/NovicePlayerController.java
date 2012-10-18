@@ -1,13 +1,13 @@
 package edu.ntnu.quartoai.controllers.players;
 
-import java.util.List;
-import java.util.Random;
-
 import core.Action;
 import core.Board;
 import core.Piece;
 import core.Set;
 import edu.ntnu.quartoai.models.Game;
+
+import java.util.List;
+import java.util.Random;
 
 public class NovicePlayerController extends PlayerController {
 
@@ -57,7 +57,7 @@ public class NovicePlayerController extends PlayerController {
             y = position[1];
             boardCopied.setPiece(piece, x, y);
             if (boardCopied.gameOver()) {
-                nextAction = new Action(piece,x,y);
+                nextAction = new Action(piece, x, y);
                 break;
             }
             boardCopied.remove(x, y);
@@ -67,7 +67,7 @@ public class NovicePlayerController extends PlayerController {
             Random randomGenerator = new Random();
             int size = freePositions.size();
             int[] randomPosition = freePositions.get(randomGenerator.nextInt(size));
-            nextAction = new Action(piece,randomPosition[0],randomPosition[1]);
+            nextAction = new Action(piece, randomPosition[0], randomPosition[1]);
         }
         return nextAction;
     }

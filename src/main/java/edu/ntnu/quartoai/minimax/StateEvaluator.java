@@ -1,6 +1,6 @@
 package edu.ntnu.quartoai.minimax;
 
-import core.*;
+import core.Board;
 
 public class StateEvaluator {
 
@@ -12,7 +12,7 @@ public class StateEvaluator {
             eval = Double.MAX_VALUE; // you are playing this state and winning
         } else if (board.gameOver() && !samePlayer) {
             eval = Double.MIN_VALUE; // the opponent is playing this state and
-                                     // winning
+            // winning
         }
         return eval;
     }

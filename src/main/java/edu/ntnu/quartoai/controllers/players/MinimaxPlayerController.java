@@ -1,7 +1,6 @@
 package edu.ntnu.quartoai.controllers.players;
 
 import com.google.inject.Inject;
-
 import core.Action;
 import core.Piece;
 import core.Set;
@@ -17,7 +16,7 @@ public class MinimaxPlayerController extends PlayerController {
 
     @Inject
     public MinimaxPlayerController(int number, int depth, final MinimaxCalculator minimaxCalculator,
-                    final NovicePlayerController novicePlayerController) {
+                                   final NovicePlayerController novicePlayerController) {
         super(number);
         this.depth = depth;
         this.minimaxCalculator = minimaxCalculator;
@@ -31,7 +30,7 @@ public class MinimaxPlayerController extends PlayerController {
             return novicePlayerController.choosePieceToGive(game);
         }
         State nextState = this.minimaxCalculator.alphaBetaDecision(game, depth,
-                        getNumberOfThePlayer(), false);
+                getNumberOfThePlayer(), false);
         return nextState.getPieceChosen();
     }
 
@@ -42,8 +41,9 @@ public class MinimaxPlayerController extends PlayerController {
             return novicePlayerController.chooseNextAction(game, piece);
         }
         State nextState = this.minimaxCalculator.alphaBetaDecision(game, depth,
-                        getNumberOfThePlayer(), true);
-        return new Action (nextState.getPieceChosen(),nextState.getPositionChosen()[0],nextState.getPositionChosen()[1]);
+                getNumberOfThePlayer(), true);
+        return new Action(nextState.getPieceChosen(), nextState.getPositionChosen()[0],
+                nextState.getPositionChosen()[1]);
     }
 
     @Override

@@ -71,8 +71,8 @@ public class Board {
         }
         for (int i = 0; i < 4; i++) {
             if ((row.get(0).getAttributes()[i] == row.get(1).getAttributes()[i])
-                            && (row.get(1).getAttributes()[i] == row.get(2).getAttributes()[i])
-                            && (row.get(2).getAttributes()[i] == row.get(3).getAttributes()[i])) {
+                    && (row.get(1).getAttributes()[i] == row.get(2).getAttributes()[i])
+                    && (row.get(2).getAttributes()[i] == row.get(3).getAttributes()[i])) {
                 return true;
             }
         }
@@ -84,7 +84,7 @@ public class Board {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (isEmpty(j, i)) {
-                    int[] pos = { j, i };
+                    int[] pos = {j, i};
                     freePositions.add(pos);
                 }
             }
@@ -144,9 +144,9 @@ public class Board {
         }
         return b;
     }
-    
+
     //added for evaluating the board
-    public Piece[][] getBoard(){
+    public Piece[][] getBoard() {
         return this.board;
     }
 }

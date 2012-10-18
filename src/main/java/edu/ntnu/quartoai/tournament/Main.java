@@ -1,15 +1,15 @@
 package edu.ntnu.quartoai.tournament;
 
+import core.Action;
+import core.Board;
+import core.Piece;
+import core.Set;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-
-import core.Action;
-import core.Board;
-import core.Piece;
-import core.Set;
 
 //Shared among tournament group
 public class Main {
@@ -37,12 +37,12 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        
+
         int rounds = 1;
         boolean quiet = false;
 
-        String[] argss = { "./quarto.jar -g -p random -p human",
-                "./quarto.jar -g -p human -p random", };
+        String[] argss = {"./quarto.jar -g -p random -p human",
+                "./quarto.jar -g -p human -p random",};
 
         // TODO: rewrite args parsing
         String command1 = "java -jar " + argss[0];
