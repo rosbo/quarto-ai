@@ -46,6 +46,10 @@ public class GameController {
         Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(game);
 
         logger.log(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
+        if (!playerWhoChooseThePiece.isHuman()) {
+            logger.logProtocol(pieceChosen.toString());
+        }
+
         set.remove(pieceChosen);
         Action actionChosen = playerWhoMoves.chooseNextAction(game, pieceChosen);
         if (!board.isEmpty(actionChosen.x, actionChosen.y)) {
@@ -55,5 +59,8 @@ public class GameController {
 
         logger.log(playerWhoMoves.toString() + " moves it in " + actionChosen.x + "," + actionChosen.y);
         logger.log(board.toString());
+        if (!playerWhoMoves.isHuman()) {
+            logger.logProtocol(actionChosen.x + " " + actionChosen.y);
+        }
     }
 }

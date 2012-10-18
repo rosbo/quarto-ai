@@ -12,17 +12,17 @@ public class Main {
     private static final String defaultNumberOfGames = "10";
 
     public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new QuartoModule());
-        QuartoController quartoController = injector.getInstance(QuartoController.class);
-        PlayerControllerFactory playerControllerFactory = injector.getInstance(PlayerControllerFactory.class);
-
         Options options = createArgsOptions();
 
         PosixParser parser = new PosixParser();
         try {
             CommandLine cmd = parser.parse(options, args);
-
             int numberOfGames = Integer.parseInt(cmd.getOptionValue("n", defaultNumberOfGames));
+            Boolean isTournamentProtocol = cmd.hasOption("g");
+
+            Injector injector = Guice.createInjector(new QuartoModule(isTournamentProtocol));
+            QuartoController quartoController = injector.getInstance(QuartoController.class);
+            PlayerControllerFactory playerControllerFactory = injector.getInstance(PlayerControllerFactory.class);
 
             PlayerController player1, player2;
             String[] pValues = cmd.getOptionValues("p");
@@ -64,7 +64,9 @@ public class Main {
 
         Option playerOption = OptionBuilder.withArgName("PLAYER PLAYER").hasArgs(2).withDescription("PLAYER can be " +
                 "human, random, novice, minimax < D > ").isRequired(true).create("p");
-                options.addOption("n", true, "Number of games to play [default: 0]");
+
+        options.addOption("n", true, "Number of games to play [default: 0]");
+        options.addOption("g", false, "Tournament protocol mode");
         options.addOption(playerOption);
 
         return options;
