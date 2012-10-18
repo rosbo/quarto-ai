@@ -1,4 +1,7 @@
 *.class
+.classpath
+.project
+
 
 # Package Files #
 *.jar
@@ -6,3 +9,4 @@
 *.ear
 /out/*
 /target/*
+/.settings/*
