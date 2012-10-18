@@ -1,30 +1,27 @@
 package edu.ntnu.quartoai.controllers.players;
 
 import com.google.inject.Inject;
-import edu.ntnu.quartoai.minimax.MinimaxCalculator;
+import edu.ntnu.quartoai.models.PlayerBehavior;
 
 
 public class PlayerFactory {
-
-    private final MinimaxCalculator minimaxCalculator;
+    private final PlayerControllerFactory playerControllerFactory;
 
     @Inject
-    public PlayerFactory(final MinimaxCalculator minimaxCalculator) {
-        this.minimaxCalculator = minimaxCalculator;
+    public PlayerFactory(final PlayerControllerFactory playerControllerFactory) {
+        this.playerControllerFactory = playerControllerFactory;
     }
 
-    public PlayerController getPlayer(int playerBehaviourString, int numberOfThePlayer) {
-        switch (playerBehaviourString) {
-            case 2:
-                return new RandomPlayerController(numberOfThePlayer);
-            case 3:
-                return new NovicePlayerController(numberOfThePlayer);
-            case 4:
-                return new MinimaxPlayerController(numberOfThePlayer, 3, minimaxCalculator,
-                        new NovicePlayerController(numberOfThePlayer));
-            case 5:
-                return new MinimaxPlayerController(numberOfThePlayer, 4, minimaxCalculator,
-                        new NovicePlayerController(numberOfThePlayer));
+    public PlayerController getPlayer(PlayerBehavior playerBehaviour, int playerNumber) {
+        switch (playerBehaviour) {
+            case RANDOM:
+                return playerControllerFactory.createRandomPlayerController(playerNumber);
+            case NOVICE:
+                return playerControllerFactory.createNovicePlayerController(playerNumber);
+            case MINIMAX3:
+                return playerControllerFactory.createMinimaxPlayerController(playerNumber, 3);
+            case MINIMAX4:
+                return playerControllerFactory.createMinimaxPlayerController(playerNumber, 4);
             default:
                 return null;
         }

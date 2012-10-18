@@ -6,13 +6,18 @@ import core.Piece;
 import core.Set;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
 import edu.ntnu.quartoai.models.Game;
+import edu.ntnu.quartoai.utils.Logger;
+
+import javax.inject.Inject;
 
 public class GameController {
 
     private Game game;
+    private final Logger logger;
 
-    public GameController() {
-
+    @Inject
+    public GameController(Logger logger) {
+        this.logger = logger;
     }
 
     public void playGame(Game game) {
@@ -27,7 +32,7 @@ public class GameController {
             if (game.getSet().isEmpty()) {
                 break;
             }
-            System.out.println("Playing Round # " + numberOfRounds);
+            logger.log("Playing Round # " + numberOfRounds);
             playNewRound();
             numberOfRounds++;
             this.game.swapPlayers();
@@ -37,10 +42,12 @@ public class GameController {
     public void playNewRound() {
         PlayerController playerWhoChooseThePiece = this.game.getPlayers().get(0);
         PlayerController playerWhoMoves = this.game.getPlayers().get(1);
+
         Board board = this.game.getBoard();
         Set set = this.game.getSet();
         Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(this.game);
-        System.out.println(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
+
+        logger.log(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
         set.remove(pieceChosen);
         Action actionChosen = playerWhoMoves.chooseNextAction(this.game, pieceChosen);
         if (!board.isEmpty(actionChosen.x, actionChosen.y)) {
@@ -51,7 +58,8 @@ public class GameController {
             }
         }
         board.setPiece(pieceChosen, actionChosen.x, actionChosen.y);
-        System.out.println(playerWhoMoves.toString() + " moves it in " + actionChosen.x + "," + actionChosen.y);
-        System.out.println(board.toString());
+
+        logger.log(playerWhoMoves.toString() + " moves it in " + actionChosen.x + "," + actionChosen.y);
+        logger.log(board.toString());
     }
 }

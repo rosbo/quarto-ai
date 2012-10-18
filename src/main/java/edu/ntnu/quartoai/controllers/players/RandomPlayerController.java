@@ -1,18 +1,20 @@
 package edu.ntnu.quartoai.controllers.players;
 
+import com.google.inject.assistedinject.Assisted;
 import core.Action;
 import core.Board;
 import core.Piece;
 import core.Set;
 import edu.ntnu.quartoai.models.Game;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Random;
 
 public class RandomPlayerController extends PlayerController {
-
-    public RandomPlayerController(int number) {
-        super(number);
+    @Inject
+    public RandomPlayerController(@Assisted("number") Integer number) {
+        super(number, "random");
     }
 
     @Override
@@ -33,9 +35,4 @@ public class RandomPlayerController extends PlayerController {
         return new Action(piece, randomPosition[0], randomPosition[1]);
     }
 
-
-    @Override
-    public String getBehaviour() {
-        return "random";
-    }
 }
