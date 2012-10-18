@@ -48,9 +48,11 @@ public class QuartoController {
         }
 
         // Printing the results
-        logger.log("******* results *******");
-        logger.log(results[0] + "\t: 1. player");
-        logger.log(results[1] + "\t: 2. player");
+        logger.log("******* Results *******");
+        PlayerController p1 = players.get(0);
+        PlayerController p2 = players.get(1);
+        logger.log(results[p1.getNumberOfThePlayer() - 1] + "\t: " + p1);
+        logger.log(results[p2.getNumberOfThePlayer() - 1] + "\t: "+ p2);
         logger.log(results[2] + "\t: ties");
     }
 }

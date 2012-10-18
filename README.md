@@ -8,10 +8,10 @@ To build the jar type the following maven command:
 
     mvn assembly:single
 
-To get the parameters
+To see the usage information
 
-    java -jar archive.jar
+    java -jar quarto-canita.jar
 
 To test with the game master
 
-    java -jar gm.jar "-jar quarto-canita-jar-with-dependencies.jar -p novice -p human -g" "-jar quarto-canita-jar-with-dependencies.jar -p human -p novice -g" -q -n 10
+    java -jar gm.jar "-jar quarto-canita.jar -p novice -p human -g" "-jar quarto-canita.jar -p human -p novice -g" -q -n 10
