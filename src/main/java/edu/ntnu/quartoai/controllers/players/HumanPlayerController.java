@@ -35,12 +35,11 @@ public class HumanPlayerController extends PlayerController {
 
         try {
             String input = bufferedReader.readLine();
+
             return Piece.stringToPeace(input);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("Invalid piece");
         }
-
-        return null;
     }
 
     @Override
@@ -49,6 +48,12 @@ public class HumanPlayerController extends PlayerController {
         int x, y;
         try {
             String input = bufferedReader.readLine();
+
+            // Manage the input signal "."
+            if(input.equals(".")){
+                input = bufferedReader.readLine();
+            }
+
             Pattern pattern = Pattern.compile("([0-9])");
             Matcher matcher = pattern.matcher(input);
 

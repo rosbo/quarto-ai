@@ -65,7 +65,7 @@ public class Main {
         Option playerOption = OptionBuilder.withArgName("PLAYER PLAYER").hasArgs(2).withDescription("PLAYER can be " +
                 "human, random, novice, minimax < D > ").isRequired(true).create("p");
 
-        options.addOption("n", true, "Number of games to play [default: 0]");
+        options.addOption("n", true, "Number of games to play [default: " + defaultNumberOfGames + "]");
         options.addOption("g", false, "Tournament protocol mode");
         options.addOption(playerOption);
 
