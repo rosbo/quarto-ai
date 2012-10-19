@@ -50,7 +50,7 @@ public class Main {
             return playerControllerFactory.createNovicePlayerController(number);
         } else if (pValue.equals("minimax3")) {
             return playerControllerFactory.createMinimaxPlayerController(number, 3);
-        } else if (pValue.equals("minimax3")) {
+        } else if (pValue.equals("minimax4")) {
             return playerControllerFactory.createMinimaxPlayerController(number, 4);
         } else if (pValue.equals("human")) {
             return playerControllerFactory.createHumanPlayerController(number);
