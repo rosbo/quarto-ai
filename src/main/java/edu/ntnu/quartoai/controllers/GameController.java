@@ -45,6 +45,10 @@ public class GameController {
         Set set = game.getSet();
         Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(game);
 
+        if(!set.contrains(pieceChosen)){
+            throw new IllegalArgumentException("Piece already on the board");
+        }
+
         logger.log(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
         if (!playerWhoChooseThePiece.isHuman()) {
             logger.logProtocol(pieceChosen.toString());
