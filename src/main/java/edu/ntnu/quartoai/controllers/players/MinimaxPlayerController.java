@@ -1,9 +1,10 @@
 package edu.ntnu.quartoai.controllers.players;
 
 import com.google.inject.Inject;
-import core.Action;
-import core.Piece;
-import core.Set;
+import com.google.inject.assistedinject.Assisted;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Piece;
+import edu.ntnu.quartoai.models.Set;
 import edu.ntnu.quartoai.minimax.MinimaxCalculator;
 import edu.ntnu.quartoai.minimax.State;
 import edu.ntnu.quartoai.models.Game;
@@ -15,9 +16,10 @@ public class MinimaxPlayerController extends PlayerController {
     private final NovicePlayerController novicePlayerController;
 
     @Inject
-    public MinimaxPlayerController(int number, int depth, final MinimaxCalculator minimaxCalculator,
-                                   final NovicePlayerController novicePlayerController) {
-        super(number);
+    public MinimaxPlayerController(final MinimaxCalculator minimaxCalculator,
+                                   final NovicePlayerController novicePlayerController,
+                                   @Assisted("number") Integer number, @Assisted("depth") Integer depth) {
+        super(number, "minimax" + depth);
         this.depth = depth;
         this.minimaxCalculator = minimaxCalculator;
         this.novicePlayerController = novicePlayerController;
@@ -44,11 +46,6 @@ public class MinimaxPlayerController extends PlayerController {
                 getNumberOfThePlayer(), true);
         return new Action(nextState.getPieceChosen(), nextState.getPositionChosen()[0],
                 nextState.getPositionChosen()[1]);
-    }
-
-    @Override
-    public String getBehaviour() {
-        return "minimax" + this.depth;
     }
 
 }

@@ -1,7 +1,5 @@
 package edu.ntnu.quartoai.models;
 
-import core.Board;
-import core.Set;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
 
 import java.util.List;
@@ -28,10 +26,6 @@ public class Game {
         return players;
     }
 
-    public void setPlayers(List<PlayerController> players) {
-        this.players = players;
-    }
-
     public List<PlayerController> swapPlayers() {
         PlayerController player1 = this.players.get(0);
         this.players.remove(0);
@@ -44,14 +38,6 @@ public class Game {
 
     public Set getSet() {
         return set;
-    }
-
-    public void setSet(Set set) {
-        this.set = set;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
     }
 
     public Board getBoard() {

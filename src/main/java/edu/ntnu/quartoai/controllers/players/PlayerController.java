@@ -1,36 +1,32 @@
 package edu.ntnu.quartoai.controllers.players;
 
-import core.Action;
-import core.Piece;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Piece;
 import edu.ntnu.quartoai.models.Game;
 
 public abstract class PlayerController {
+    private final String behavior;
+    private final int numberOfThePlayer;
 
-    private int numberOfThePlayer;
-
-    public PlayerController(int number) {
+    protected PlayerController(int number, String behavior) {
         this.numberOfThePlayer = number;
+        this.behavior = behavior;
+    }
+
+    @Override
+    public String toString() {
+        return "Player " + getNumberOfThePlayer() + " (" + behavior + ")";
     }
 
     public abstract Piece choosePieceToGive(Game game);
 
     public abstract Action chooseNextAction(Game game, Piece piece);
 
-    public String getBehaviour() {
-        return "";
-    }
-
     public int getNumberOfThePlayer() {
         return numberOfThePlayer;
     }
 
-    public void setNumberOfThePlayer(int numberOfThePlayer) {
-        this.numberOfThePlayer = numberOfThePlayer;
+    public boolean isHuman(){
+        return behavior.equals("human");
     }
-
-    @Override
-    public String toString() {
-        return "Player " + getNumberOfThePlayer() + " (" + this.getBehaviour() + ")";
-    }
-
 }

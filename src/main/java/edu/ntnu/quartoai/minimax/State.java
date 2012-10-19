@@ -1,8 +1,8 @@
 package edu.ntnu.quartoai.minimax;
 
-import core.Board;
-import core.Piece;
-import core.Set;
+import edu.ntnu.quartoai.models.Board;
+import edu.ntnu.quartoai.models.Piece;
+import edu.ntnu.quartoai.models.Set;
 
 import java.util.ArrayList;
 import java.util.List;
