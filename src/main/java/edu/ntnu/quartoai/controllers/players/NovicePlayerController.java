@@ -1,18 +1,21 @@
 package edu.ntnu.quartoai.controllers.players;
 
-import core.Action;
-import core.Board;
-import core.Piece;
-import core.Set;
+import com.google.inject.assistedinject.Assisted;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Board;
+import edu.ntnu.quartoai.models.Piece;
+import edu.ntnu.quartoai.models.Set;
 import edu.ntnu.quartoai.models.Game;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Random;
 
 public class NovicePlayerController extends PlayerController {
 
-    public NovicePlayerController(int number) {
-        super(number);
+    @Inject
+    public NovicePlayerController(@Assisted("number") Integer number) {
+        super(number, "novice");
     }
 
     @Override
@@ -72,8 +75,4 @@ public class NovicePlayerController extends PlayerController {
         return nextAction;
     }
 
-    @Override
-    public String getBehaviour() {
-        return "novice";
-    }
 }

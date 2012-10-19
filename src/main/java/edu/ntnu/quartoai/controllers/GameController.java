@@ -1,22 +1,25 @@
 package edu.ntnu.quartoai.controllers;
 
-import core.Action;
-import core.Board;
-import core.Piece;
-import core.Set;
+import edu.ntnu.quartoai.models.Action;
+import edu.ntnu.quartoai.models.Board;
+import edu.ntnu.quartoai.models.Piece;
+import edu.ntnu.quartoai.models.Set;
 import edu.ntnu.quartoai.controllers.players.PlayerController;
 import edu.ntnu.quartoai.models.Game;
+import edu.ntnu.quartoai.utils.Logger;
+
+import javax.inject.Inject;
 
 public class GameController {
 
-    private Game game;
+    private final Logger logger;
 
-    public GameController() {
-
+    @Inject
+    public GameController(Logger logger) {
+        this.logger = logger;
     }
 
     public void playGame(Game game) {
-        this.game = game;
         int numberOfRounds = 1;
         while (true) {
             if (game.isOver()) {
@@ -27,31 +30,37 @@ public class GameController {
             if (game.getSet().isEmpty()) {
                 break;
             }
-            System.out.println("Playing Round # " + numberOfRounds);
-            playNewRound();
+            logger.log("Playing Round # " + numberOfRounds);
+            playNewRound(game);
             numberOfRounds++;
-            this.game.swapPlayers();
+            game.swapPlayers();
         }
     }
 
-    public void playNewRound() {
-        PlayerController playerWhoChooseThePiece = this.game.getPlayers().get(0);
-        PlayerController playerWhoMoves = this.game.getPlayers().get(1);
-        Board board = this.game.getBoard();
-        Set set = this.game.getSet();
-        Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(this.game);
-        System.out.println(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
+    private void playNewRound(Game game) {
+        PlayerController playerWhoChooseThePiece = game.getPlayers().get(0);
+        PlayerController playerWhoMoves = game.getPlayers().get(1);
+
+        Board board = game.getBoard();
+        Set set = game.getSet();
+        Piece pieceChosen = playerWhoChooseThePiece.choosePieceToGive(game);
+
+        logger.log(playerWhoChooseThePiece.toString() + " chooses " + pieceChosen.toString());
+        if (!playerWhoChooseThePiece.isHuman()) {
+            logger.logProtocol(pieceChosen.toString());
+        }
+
         set.remove(pieceChosen);
-        Action actionChosen = playerWhoMoves.chooseNextAction(this.game, pieceChosen);
+        Action actionChosen = playerWhoMoves.chooseNextAction(game, pieceChosen);
         if (!board.isEmpty(actionChosen.x, actionChosen.y)) {
-            try {
-                throw new Exception("Wrong position");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            throw new IllegalArgumentException("Wrong position");
         }
         board.setPiece(pieceChosen, actionChosen.x, actionChosen.y);
-        System.out.println(playerWhoMoves.toString() + " moves it in " + actionChosen.x + "," + actionChosen.y);
-        System.out.println(board.toString());
+
+        logger.log(playerWhoMoves.toString() + " moves it in " + actionChosen.x + "," + actionChosen.y);
+        logger.log(board.toString());
+        if (!playerWhoMoves.isHuman()) {
+            logger.logProtocol(actionChosen.x + " " + actionChosen.y);
+        }
     }
 }
