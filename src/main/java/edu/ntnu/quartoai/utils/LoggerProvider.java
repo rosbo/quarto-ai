@@ -16,7 +16,7 @@ public class LoggerProvider implements Provider<Logger> {
         tournamentProtocol = isTournamentProtocol;
     }
 
-    @Override
+//    @Override
     public Logger get() {
         if (tournamentProtocol) {
             return new TournamentLogger();

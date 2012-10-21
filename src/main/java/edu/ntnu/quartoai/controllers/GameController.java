@@ -61,7 +61,7 @@ public class GameController {
         }
         board.setPiece(pieceChosen, actionChosen.x, actionChosen.y);
 
-        logger.log(playerWhoMoves.toString() + " moves it in " + actionChosen.x + "," + actionChosen.y);
+        logger.log(playerWhoMoves.toString() + " moves " + pieceChosen +" in " + actionChosen.x + "," + actionChosen.y);
         logger.log(board.toString());
         if (!playerWhoMoves.isHuman()) {
             logger.logProtocol(actionChosen.x + " " + actionChosen.y);

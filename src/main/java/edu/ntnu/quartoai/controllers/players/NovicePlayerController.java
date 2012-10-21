@@ -8,6 +8,9 @@ import edu.ntnu.quartoai.models.Set;
 import edu.ntnu.quartoai.models.Game;
 
 import javax.inject.Inject;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -26,7 +29,10 @@ public class NovicePlayerController extends PlayerController {
         int x, y;
         List<int[]> freePositions = board.getFreePositions();
         List<Piece> piecesLeft = set.getPieces();
+        Collections.shuffle(freePositions);
+        Collections.shuffle(piecesLeft);
         Board boardCopied = board.copy();
+        boolean pieceFound = false;
         for (Piece piece : piecesLeft) {
             for (int[] position : freePositions) {
                 x = position[0];
@@ -34,9 +40,13 @@ public class NovicePlayerController extends PlayerController {
                 boardCopied.setPiece(piece, x, y);
                 if (!boardCopied.gameOver()) {
                     pieceToGive = piece;
+                    pieceFound = true;
                     break;
                 }
                 boardCopied.remove(x, y);
+            }
+            if (pieceFound){
+                break;
             }
         }
         if (pieceToGive == null) {// random choice
@@ -53,8 +63,8 @@ public class NovicePlayerController extends PlayerController {
         Action nextAction = null;
         int x, y;
         List<int[]> freePositions = board.getFreePositions();
+        Collections.shuffle(freePositions);
         Board boardCopied = board.copy();
-
         for (int[] position : freePositions) {
             x = position[0];
             y = position[1];

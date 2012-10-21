@@ -4,7 +4,7 @@ public class TournamentLogger implements Logger {
     public void log(String message) {
     }
 
-    @Override
+//    @Override
     public void logProtocol(String message) {
         System.out.println(message);
     }
