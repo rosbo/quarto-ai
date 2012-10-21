@@ -59,6 +59,7 @@ public class StateEvaluator {
             for (Piece piece : pieceGroup) {
                 if (piece != null) {
                     piece.getAttributes();
+                    //:TODO Evaluate
                 }
             }
         }
@@ -70,18 +71,18 @@ public class StateEvaluator {
         Piece[][] boardAsArray = board.getBoard();
         List<Piece[]> pieces = new ArrayList<Piece[]>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {//row
             Piece[] tmpPieces = { boardAsArray[i][0], boardAsArray[i][1], boardAsArray[i][2], boardAsArray[i][3] };
             pieces.add(tmpPieces);
         }
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 4; j++) {//coloumn
             Piece[] tmpPieces = { boardAsArray[0][j], boardAsArray[1][j], boardAsArray[2][j], boardAsArray[3][j] };
             pieces.add(tmpPieces);
         }
         Piece[] tmpPieces = { boardAsArray[0][0], boardAsArray[1][1], boardAsArray[2][2], boardAsArray[3][3] };
-        pieces.add(tmpPieces);
+        pieces.add(tmpPieces);//diagonal
         Piece[] tmpPiecesDiagonal = { boardAsArray[0][3], boardAsArray[1][2], boardAsArray[2][1], boardAsArray[3][0] };
-        pieces.add(tmpPiecesDiagonal);
+        pieces.add(tmpPiecesDiagonal);//codiagonal
         return pieces;
 
     }
