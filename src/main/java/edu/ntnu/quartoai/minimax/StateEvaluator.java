@@ -82,11 +82,14 @@ public class StateEvaluator {
         return eval;
     }
     
+    /*
+     * Not all position have the same importance corners > center > borders
+     * */
     private double evaluatePosition(State state){
         int[] positionChosen = state.getPositionChosen();
         int x = positionChosen[0];
         int y = positionChosen[1];
-        double[][] positionValues = {{15,10,10,15},{10,20,20,10},{10,20,20,10},{15,10,10,15}};
+        double[][] positionValues = {{20,10,10,20},{10,15,15,10},{10,15,15,10},{20,10,10,20}};
         return positionValues[x][y];
     }
 

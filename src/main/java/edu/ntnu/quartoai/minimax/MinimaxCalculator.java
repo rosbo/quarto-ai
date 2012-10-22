@@ -35,12 +35,18 @@ public class MinimaxCalculator {
         return state;
     }
 
+    public boolean terminalTest(State state) {
+        Board board = state.getBoard();
+        Set set = state.getSet();
+        return board.gameOver() || board.getFreePositions().size() == 0 || set.getPieces().size() == 0;
+    }
+
     public double maxValue(State root, State state, double alpha, double beta, int depth,
                     int numberOfThePlayerPlayingTheState, int numberOfThePlayerWhoStarted, boolean minimaxPlayerTurn,
                     Piece startingPiece) {
         Board board = state.getBoard();
         Set set = state.getSet();
-        if (board.gameOver() || board.getFreePositions().size() == 0 || set.getPieces().size() == 0) {
+        if (terminalTest(state)) {
             double utilityValue = utilityValue(state, numberOfThePlayerWhoStarted, minimaxPlayerTurn);
             return utilityValue;
         } else if (depth == 0) {
@@ -71,10 +77,10 @@ public class MinimaxCalculator {
                     Piece startingPiece) {
         Board board = state.getBoard();
         Set set = state.getSet();
-        if (board.gameOver() || board.getFreePositions().size() == 0 || set.getPieces().size() == 0) {
+        if (terminalTest(state)) {
             double utilityValue = utilityValue(state, numberOfThePlayerWhoStarted, minimaxPlayerTurn);
             return utilityValue;
-        }else if (depth == 0) {
+        } else if (depth == 0) {
             return evaluateIntermediateState(state, numberOfThePlayerWhoStarted);
         } else {
             double v = Double.MAX_VALUE;
@@ -156,7 +162,7 @@ public class MinimaxCalculator {
 
     private double utilityValue(State state, int numberOfThePlayerWhoStarted, boolean minimaxPlayerTurn) {
         double eval = stateEvaluator.utilityValue(state, numberOfThePlayerWhoStarted);
-        eval = minimaxPlayerTurn ? eval : -1*(eval);
+        eval = minimaxPlayerTurn ? eval : -1 * (eval);
         state.setUtility(eval);
         return eval;
     }
