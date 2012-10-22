@@ -51,39 +51,93 @@ public class StateEvaluator {
      */
     public double evaluate(State state, int numberOfThePlayer) {
         Board board = state.getBoard();
-        Random rnd = new Random();
-        double eval = rnd.nextDouble();
-
+//        Random rnd = new Random();
+        // double eval = rnd.nextDouble();
+        double eval = 0.0;
         List<Piece[]> pieceGroups = group(board);
         for (Piece[] pieceGroup : pieceGroups) {
-            for (Piece piece : pieceGroup) {
-                if (piece != null) {
-                    piece.getAttributes();
-                    //:TODO Evaluate
-                }
+
+            if (pieceGroup[0] != null && pieceGroup[1] != null) {
+                eval += commonAttributes(pieceGroup[0],pieceGroup[1]);
+            }
+            if (pieceGroup[0] != null && pieceGroup[2] != null) {
+                eval += commonAttributes(pieceGroup[0],pieceGroup[2]);
+            }
+            if (pieceGroup[1] != null && pieceGroup[2] != null) {
+                eval += commonAttributes(pieceGroup[1],pieceGroup[2]);
+            }
+            if (pieceGroup[0] != null && pieceGroup[3] != null) {
+                eval += commonAttributes(pieceGroup[0],pieceGroup[3]);
+            }
+            if (pieceGroup[1] != null && pieceGroup[3] != null) {
+                eval += commonAttributes(pieceGroup[1],pieceGroup[3]);
+            }
+            if (pieceGroup[2] != null && pieceGroup[3] != null) {
+                eval += commonAttributes(pieceGroup[2],pieceGroup[3]);
             }
         }
         
+        eval *= 10;
+        eval += evaluatePosition(state);
         return eval;
+    }
+    
+    private double evaluatePosition(State state){
+        int[] positionChosen = state.getPositionChosen();
+        int x = positionChosen[0];
+        int y = positionChosen[1];
+        double[][] positionValues = {{15,10,10,15},{10,20,20,10},{10,20,20,10},{15,10,10,15}};
+        return positionValues[x][y];
+    }
+
+    private int commonAttributes(Piece piece1, Piece piece2) {
+        int numberOfCommonAttributes = 0;
+        if (piece1 != null && piece2 != null) {
+            boolean[] attr1 = piece1.getAttributes();
+            boolean[] attr2 = piece2.getAttributes();
+            for(int i = 0; i< 4; i++){
+                if(attr1[i]==attr2[i]){
+                    numberOfCommonAttributes++;
+                }
+            }
+        }
+        return numberOfCommonAttributes;
+    }
+
+    private boolean rowComplete(ArrayList<Piece> row) {
+        for (Piece piece : row) {
+            if (piece == null) {
+                return false;
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            if ((row.get(0).getAttributes()[i] == row.get(1).getAttributes()[i])
+                            && (row.get(1).getAttributes()[i] == row.get(2).getAttributes()[i])
+                            && (row.get(2).getAttributes()[i] == row.get(3).getAttributes()[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private List<Piece[]> group(Board board) {
         Piece[][] boardAsArray = board.getBoard();
-        List<Piece[]> pieces = new ArrayList<Piece[]>();
+        List<Piece[]> pieceArray = new ArrayList<Piece[]>();
+        List<Piece> pieces = new ArrayList<Piece>();
 
-        for (int i = 0; i < 4; i++) {//row
+        for (int i = 0; i < 4; i++) {// row
             Piece[] tmpPieces = { boardAsArray[i][0], boardAsArray[i][1], boardAsArray[i][2], boardAsArray[i][3] };
-            pieces.add(tmpPieces);
+            // pieceArray.add(Arrays.);
         }
-        for (int j = 0; j < 4; j++) {//coloumn
+        for (int j = 0; j < 4; j++) {// coloumn
             Piece[] tmpPieces = { boardAsArray[0][j], boardAsArray[1][j], boardAsArray[2][j], boardAsArray[3][j] };
-            pieces.add(tmpPieces);
+            pieceArray.add(tmpPieces);
         }
         Piece[] tmpPieces = { boardAsArray[0][0], boardAsArray[1][1], boardAsArray[2][2], boardAsArray[3][3] };
-        pieces.add(tmpPieces);//diagonal
+        pieceArray.add(tmpPieces);// diagonal
         Piece[] tmpPiecesDiagonal = { boardAsArray[0][3], boardAsArray[1][2], boardAsArray[2][1], boardAsArray[3][0] };
-        pieces.add(tmpPiecesDiagonal);//codiagonal
-        return pieces;
+        pieceArray.add(tmpPiecesDiagonal);// codiagonal
+        return pieceArray;
 
     }
 
