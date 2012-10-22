@@ -2,28 +2,18 @@ package edu.ntnu.quartoai.minimax;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import com.google.inject.Inject;
 
 import edu.ntnu.quartoai.models.Board;
 import edu.ntnu.quartoai.models.Piece;
 
 public class StateEvaluator {
 
-    public double utilityValue(State state, int numberOfThePlayer, String player) {
-        Board board = state.getBoard();
-        if (board.gameOver() && player.equals("MAX")) {
-            return Double.MAX_VALUE; // you are playing this state and winning
-        } else if (board.gameOver() && player.equals("MIN")) {
-            return Double.MIN_VALUE;
-        }
-
-        return 0; // tie
-    }
-
     /*
      * Evaluate an intermediate state
      */
-    public double evaluate(State state, int numberOfThePlayer) {
+    public double evaluate(State state, String numberOfThePlayer) {
         Board board = state.getBoard();
         Piece pieceChosen = state.getPieceChosen();
         double eval = 0.0;
@@ -59,15 +49,16 @@ public class StateEvaluator {
                             && pieceChosen != null
                             && (pieceGroup[0].equals(pieceChosen) || pieceGroup[1].equals(pieceChosen) || pieceGroup[2]
                                             .equals(pieceChosen));
-            boolean samePlayer = numberOfThePlayer == state.getNumberOfThePlayer();
+            // boolean samePlayer = numberOfThePlayer ==
+            // state.getNumberOfThePlayer();
 
             // be careful, in the next turn the opposite could win!
-            if (condition && samePlayer) {
+            if (condition && numberOfThePlayer.equals("MAX")) {
                 eval -= 100;
             }
             // it's very good if the opposite fills a line of three this way,
             // you could win next turn
-            if (condition && !samePlayer) {
+            if (condition && numberOfThePlayer.equals("MIN")) {
                 eval += 100;
             }
 

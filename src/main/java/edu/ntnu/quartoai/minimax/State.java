@@ -16,6 +16,7 @@ public class State {
     private int[] positionChosen;
     private State next;
     private int numberOfThePlayer;
+    private double currentValue;
 
     public int getNumberOfThePlayer() {
         return numberOfThePlayer;
@@ -33,8 +34,17 @@ public class State {
         this.pieceChosen = null;
         this.positionChosen = null;
         this.next = null;
-        this.numberOfThePlayer = -1;        
-    }    
+        this.numberOfThePlayer = -1;
+        this.currentValue = Double.MIN_VALUE;
+    }
+
+    public double getCurrentValue() {
+        return currentValue;
+    }
+
+    public void setCurrentValue(double currentValue) {
+        this.currentValue = currentValue;
+    }
 
     public List<State> getSuccessors() {
         return successors;
@@ -75,15 +85,16 @@ public class State {
 
     @Override
     public String toString() {
-        String result = "State: \n Board:\n" + this.board.toString() + "Set:\n" + set.toString() + "\nPiece Chosen:" + pieceChosen+ "\nTurn of player #" +
-                +(numberOfThePlayer+1) +"\nUtility:"+ utility + "\nSuccessors:" + this.successors.size()+"\n";
+        String result = "State: \n Board:\n" + this.board.toString() + "Set:\n" + set.toString() + "\nPiece Chosen:"
+                        + pieceChosen + "\nTurn of player #" + +(numberOfThePlayer + 1) + "\nUtility:" + utility
+                        + "\nSuccessors:" + this.successors.size() + "\n";
         return result;
     }
 
     public String printAll() {
         String result = this.toString();
         for (State node : this.successors) {
-            result = result + node.printAll() +"\n";
+            result = result + node.printAll() + "\n";
         }
         return result;
     }
