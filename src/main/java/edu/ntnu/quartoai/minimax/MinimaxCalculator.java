@@ -25,8 +25,7 @@ public class MinimaxCalculator {
         State state = new State(board, set);
         state.setNumberOfThePlayer(numberOfThePlayer);
         state.setPieceChosen(startingPiece);
-        maxValue(state, state, Double.MIN_VALUE, Double.MAX_VALUE, depth, (numberOfThePlayer + 1) % 2,
-                        numberOfThePlayer, startingPiece);
+        
         if (maximize) {
             maxValue(state, state, Double.MIN_VALUE, Double.MAX_VALUE, depth, (numberOfThePlayer + 1) % 2,
                             numberOfThePlayer, startingPiece);
