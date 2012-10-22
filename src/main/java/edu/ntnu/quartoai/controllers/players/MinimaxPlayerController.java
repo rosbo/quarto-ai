@@ -31,7 +31,7 @@ public class MinimaxPlayerController extends PlayerController {
         if (set.getPieces().size() > 10 || set.getPieces().size() <= 1) {
             return novicePlayerController.choosePieceToGive(game);
         } 
-        State currentState = this.minimaxCalculator.alphaBetaDecision(game, null, depth, getNumberOfThePlayer(), false);
+        State currentState = this.minimaxCalculator.alphaBetaDecision(game, null, depth, getNumberOfThePlayer(), true);
         State nextState = currentState.getNext();
         if (nextState != null) {
             return nextState.getPieceChosen();
