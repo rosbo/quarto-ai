@@ -27,10 +27,10 @@ public class MinimaxCalculator {
         state.setPieceChosen(startingPiece);
         if (maximize) {
             maxValue(state, state, Double.MIN_VALUE, Double.MAX_VALUE, depth, (numberOfThePlayer + 1) % 2,
-                            numberOfThePlayer, true, startingPiece);
+                            numberOfThePlayer, startingPiece);
         } else {
             minValue(state, state, Double.MIN_VALUE, Double.MAX_VALUE, depth, (numberOfThePlayer + 1) % 2,
-                            numberOfThePlayer, true, startingPiece);
+                            numberOfThePlayer, startingPiece);
         }
         return state;
     }
@@ -42,12 +42,11 @@ public class MinimaxCalculator {
     }
 
     public double maxValue(State root, State state, double alpha, double beta, int depth,
-                    int numberOfThePlayerPlayingTheState, int numberOfThePlayerWhoStarted, boolean minimaxPlayerTurn,
-                    Piece startingPiece) {
+                    int numberOfThePlayerPlayingTheState, int numberOfThePlayerWhoStarted, Piece startingPiece) {
         Board board = state.getBoard();
         Set set = state.getSet();
         if (terminalTest(state)) {
-            double utilityValue = utilityValue(state, numberOfThePlayerWhoStarted, minimaxPlayerTurn);
+            double utilityValue = utilityValue(state, numberOfThePlayerWhoStarted, "MAX");
             return utilityValue;
         } else if (depth == 0) {
             return evaluateIntermediateState(state, numberOfThePlayerWhoStarted);
@@ -57,8 +56,7 @@ public class MinimaxCalculator {
             List<State> successors = calculateSuccessors(state, startingPiece, numberOfThePlayerPlayingTheState);
             for (State successor : successors) {
                 double minimumValueSuccessors = minValue(root, successor, alpha, beta, depth - 1,
-                                numberOfThePlayerPlayingTheState, numberOfThePlayerWhoStarted, !minimaxPlayerTurn,
-                                startingPiece);
+                                numberOfThePlayerPlayingTheState, numberOfThePlayerWhoStarted, startingPiece);
                 if (minimumValueSuccessors > v) {
                     v = minimumValueSuccessors;
                     state.setNext(successor);
@@ -73,12 +71,11 @@ public class MinimaxCalculator {
     }
 
     public double minValue(State root, State state, double alpha, double beta, int depth,
-                    int numberOfThePlayerPlayingTheState, int numberOfThePlayerWhoStarted, boolean minimaxPlayerTurn,
-                    Piece startingPiece) {
+                    int numberOfThePlayerPlayingTheState, int numberOfThePlayerWhoStarted, Piece startingPiece) {
         Board board = state.getBoard();
         Set set = state.getSet();
         if (terminalTest(state)) {
-            double utilityValue = utilityValue(state, numberOfThePlayerWhoStarted, minimaxPlayerTurn);
+            double utilityValue = utilityValue(state, numberOfThePlayerWhoStarted, "MIN");
             return utilityValue;
         } else if (depth == 0) {
             return evaluateIntermediateState(state, numberOfThePlayerWhoStarted);
@@ -88,8 +85,7 @@ public class MinimaxCalculator {
             List<State> successors = calculateSuccessors(state, startingPiece, numberOfThePlayerPlayingTheState);
             for (State successor : successors) {
                 double maximumValueOfSuccessor = maxValue(root, successor, alpha, beta, depth - 1,
-                                numberOfThePlayerPlayingTheState, numberOfThePlayerWhoStarted, !minimaxPlayerTurn,
-                                startingPiece);
+                                numberOfThePlayerPlayingTheState, numberOfThePlayerWhoStarted, startingPiece);
                 if (maximumValueOfSuccessor < v) {
                     v = maximumValueOfSuccessor;
                     state.setNext(successor);
@@ -160,9 +156,8 @@ public class MinimaxCalculator {
         return eval;
     }
 
-    private double utilityValue(State state, int numberOfThePlayerWhoStarted, boolean minimaxPlayerTurn) {
-        double eval = stateEvaluator.utilityValue(state, numberOfThePlayerWhoStarted);
-        eval = minimaxPlayerTurn ? eval : -1 * (eval);
+    private double utilityValue(State state, int numberOfThePlayerWhoStarted, String player) {
+        double eval = stateEvaluator.utilityValue(state, numberOfThePlayerWhoStarted, player);
         state.setUtility(eval);
         return eval;
     }

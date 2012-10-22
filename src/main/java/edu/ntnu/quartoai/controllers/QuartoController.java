@@ -43,7 +43,7 @@ public class QuartoController {
                 logger.log("Game #" + i + " finished with a tie");
             } else {
                 logger.log("Winner of game #" + i + " is " + winner.toString());
-                results[winner.getNumberOfThePlayer() - 1]++;
+                results[winner.getNumberOfThePlayer()-1]++;
             }
         }
 
@@ -51,8 +51,8 @@ public class QuartoController {
         logger.log("******* Results *******");
         PlayerController p1 = players.get(0);
         PlayerController p2 = players.get(1);
-        logger.log(results[p1.getNumberOfThePlayer() - 1] + "\t: " + p1);
-        logger.log(results[p2.getNumberOfThePlayer() - 1] + "\t: "+ p2);
+        logger.log(results[p1.getNumberOfThePlayer()-1] + "\t: " + p1);
+        logger.log(results[p2.getNumberOfThePlayer()-1] + "\t: "+ p2);
         logger.log(results[2] + "\t: ties");
     }
 }

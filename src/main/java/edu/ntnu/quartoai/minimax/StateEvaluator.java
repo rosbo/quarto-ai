@@ -9,41 +9,15 @@ import edu.ntnu.quartoai.models.Piece;
 
 public class StateEvaluator {
 
-    /*
-     * Returns the utility value of a final state *
-     */
-    // public double utilityValue(State state, int numberOfThePlayer) {
-    // Board board = state.getBoard();
-    //
-    // boolean samePlayer = (numberOfThePlayer % 2) ==
-    // state.getNumberOfThePlayer();
-    // System.out.println(samePlayer + "Number of the player is " +
-    // (numberOfThePlayer % 2)
-    // + "while the state player is " + state.getNumberOfThePlayer());
-    // if (board.gameOver() && samePlayer) {
-    // return Double.MAX_VALUE; // you are playing this state and winning
-    // // eval = 10;
-    // // System.out.println("MAX VALUE");
-    // }
-    // if (board.gameOver() && !samePlayer) {
-    // return Double.MIN_VALUE; // the opponent is playing this state and
-    // // winning
-    // // eval = 10;
-    // // System.out.println("MAX VALUE");
-    // }
-    // return 1; //tie
-    // }
-
-    public double utilityValue(State state, int numberOfThePlayer) {
+    public double utilityValue(State state, int numberOfThePlayer, String player) {
         Board board = state.getBoard();
-
-        if (board.gameOver()) {
+        if (board.gameOver() && player.equals("MAX")) {
             return Double.MAX_VALUE; // you are playing this state and winning
-            // eval = 10;
-            // System.out.println("MAX VALUE");
+        } else if (board.gameOver() && player.equals("MIN")) {
+            return Double.MIN_VALUE;
         }
 
-        return 1; // tie
+        return 0; // tie
     }
 
     /*
@@ -51,45 +25,88 @@ public class StateEvaluator {
      */
     public double evaluate(State state, int numberOfThePlayer) {
         Board board = state.getBoard();
-//        Random rnd = new Random();
-        // double eval = rnd.nextDouble();
+        Piece pieceChosen = state.getPieceChosen();
         double eval = 0.0;
         List<Piece[]> pieceGroups = group(board);
+        // checks how many common couples are there
         for (Piece[] pieceGroup : pieceGroups) {
 
             if (pieceGroup[0] != null && pieceGroup[1] != null) {
-                eval += commonAttributes(pieceGroup[0],pieceGroup[1]);
+                eval += commonAttributes(pieceGroup[0], pieceGroup[1]);
             }
             if (pieceGroup[0] != null && pieceGroup[2] != null) {
-                eval += commonAttributes(pieceGroup[0],pieceGroup[2]);
+                eval += commonAttributes(pieceGroup[0], pieceGroup[2]);
             }
             if (pieceGroup[1] != null && pieceGroup[2] != null) {
-                eval += commonAttributes(pieceGroup[1],pieceGroup[2]);
+                eval += commonAttributes(pieceGroup[1], pieceGroup[2]);
             }
             if (pieceGroup[0] != null && pieceGroup[3] != null) {
-                eval += commonAttributes(pieceGroup[0],pieceGroup[3]);
+                eval += commonAttributes(pieceGroup[0], pieceGroup[3]);
             }
             if (pieceGroup[1] != null && pieceGroup[3] != null) {
-                eval += commonAttributes(pieceGroup[1],pieceGroup[3]);
+                eval += commonAttributes(pieceGroup[1], pieceGroup[3]);
             }
             if (pieceGroup[2] != null && pieceGroup[3] != null) {
-                eval += commonAttributes(pieceGroup[2],pieceGroup[3]);
+                eval += commonAttributes(pieceGroup[2], pieceGroup[3]);
             }
         }
-        
         eval *= 10;
+        // checks the triplets
+        for (Piece[] pieceGroup : pieceGroups) {
+            boolean condition = pieceGroup[0] != null
+                            && pieceGroup[1] != null
+                            && pieceGroup[2] != null
+                            && pieceChosen != null
+                            && (pieceGroup[0].equals(pieceChosen) || pieceGroup[1].equals(pieceChosen) || pieceGroup[2]
+                                            .equals(pieceChosen));
+            boolean samePlayer = numberOfThePlayer == state.getNumberOfThePlayer();
+
+            // be careful, in the next turn the opposite could win!
+            if (condition && samePlayer) {
+                eval -= 100;
+            }
+            // it's very good if the opposite fills a line of three this way,
+            // you could win next turn
+            if (condition && !samePlayer) {
+                eval += 100;
+            }
+
+        }
+
+        // Not all the position have the same importance
         eval += evaluatePosition(state);
         return eval;
     }
-    
+
+    public boolean shareAttribute(Piece[] pieces) {
+        boolean result = false;
+        for (int i = 0; i < pieces.length - 1; i++) {
+            for (int j = i + 1; j < pieces.length; j++) {
+                for (int k = 0; k < 4; k++) {
+                    if (pieces[i].getAttributes()[k] == pieces[k].getAttributes()[k]) {
+                        result = true;
+                        break;
+                    }
+                }
+                if (result) {
+                    break;
+                }
+            }
+            if (result) {
+                break;
+            }
+        }
+        return result;
+    }
+
     /*
      * Not all position have the same importance corners > center > borders
-     * */
-    private double evaluatePosition(State state){
+     */
+    private double evaluatePosition(State state) {
         int[] positionChosen = state.getPositionChosen();
         int x = positionChosen[0];
         int y = positionChosen[1];
-        double[][] positionValues = {{20,10,10,20},{10,15,15,10},{10,15,15,10},{20,10,10,20}};
+        double[][] positionValues = { { 20, 10, 10, 20 }, { 10, 15, 15, 10 }, { 10, 15, 15, 10 }, { 20, 10, 10, 20 } };
         return positionValues[x][y];
     }
 
@@ -98,29 +115,13 @@ public class StateEvaluator {
         if (piece1 != null && piece2 != null) {
             boolean[] attr1 = piece1.getAttributes();
             boolean[] attr2 = piece2.getAttributes();
-            for(int i = 0; i< 4; i++){
-                if(attr1[i]==attr2[i]){
+            for (int i = 0; i < 4; i++) {
+                if (attr1[i] == attr2[i]) {
                     numberOfCommonAttributes++;
                 }
             }
         }
         return numberOfCommonAttributes;
-    }
-
-    private boolean rowComplete(ArrayList<Piece> row) {
-        for (Piece piece : row) {
-            if (piece == null) {
-                return false;
-            }
-        }
-        for (int i = 0; i < 4; i++) {
-            if ((row.get(0).getAttributes()[i] == row.get(1).getAttributes()[i])
-                            && (row.get(1).getAttributes()[i] == row.get(2).getAttributes()[i])
-                            && (row.get(2).getAttributes()[i] == row.get(3).getAttributes()[i])) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private List<Piece[]> group(Board board) {
@@ -130,7 +131,6 @@ public class StateEvaluator {
 
         for (int i = 0; i < 4; i++) {// row
             Piece[] tmpPieces = { boardAsArray[i][0], boardAsArray[i][1], boardAsArray[i][2], boardAsArray[i][3] };
-            // pieceArray.add(Arrays.);
         }
         for (int j = 0; j < 4; j++) {// coloumn
             Piece[] tmpPieces = { boardAsArray[0][j], boardAsArray[1][j], boardAsArray[2][j], boardAsArray[3][j] };
