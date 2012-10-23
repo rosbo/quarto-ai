@@ -8,10 +8,12 @@ import edu.ntnu.quartoai.controllers.players.PlayerControllerFactory;
 import edu.ntnu.quartoai.dependencyinjection.QuartoModule;
 import org.apache.commons.cli.*;
 
+import java.io.IOException;
+
 public class Main {
     private static final String defaultNumberOfGames = "10";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Options options = createArgsOptions();
 
         PosixParser parser = new PosixParser();
@@ -34,7 +36,7 @@ public class Main {
                 player2 = getPlayerFromString(playerControllerFactory, pValues[1], 2);
             }
 
-            quartoController.play(player1, player2, numberOfGames);
+            quartoController.play(player1, player2, numberOfGames, isTournamentProtocol);
         } catch (ParseException e) {
             System.err.println("Parsing failed: " + e.getMessage());
             HelpFormatter helpFormatter = new HelpFormatter();
