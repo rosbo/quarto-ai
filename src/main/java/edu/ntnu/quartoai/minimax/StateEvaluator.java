@@ -49,9 +49,7 @@ public class StateEvaluator {
                             && pieceChosen != null
                             && (pieceGroup[0].equals(pieceChosen) || pieceGroup[1].equals(pieceChosen) || pieceGroup[2]
                                             .equals(pieceChosen));
-            // boolean samePlayer = numberOfThePlayer ==
-            // state.getNumberOfThePlayer();
-
+            
             // be careful, in the next turn the opposite could win!
             if (condition && numberOfThePlayer.equals("MAX")) {
                 eval -= 100;
@@ -65,7 +63,7 @@ public class StateEvaluator {
         }
 
         // Not all the position have the same importance
-        eval += evaluatePosition(state);
+        eval += (evaluatePosition(state));
         return eval;
     }
 
@@ -91,13 +89,13 @@ public class StateEvaluator {
     }
 
     /*
-     * Not all position have the same importance corners > center > borders
+     * Not all position have the same importance center > corner > borders
      */
     private double evaluatePosition(State state) {
         int[] positionChosen = state.getPositionChosen();
         int x = positionChosen[0];
         int y = positionChosen[1];
-        double[][] positionValues = { { 20, 10, 10, 20 }, { 10, 15, 15, 10 }, { 10, 15, 15, 10 }, { 20, 10, 10, 20 } };
+        double[][] positionValues = { { 15, 10, 10, 15 }, { 10, 20, 20, 10 }, { 10, 20, 20, 10 }, { 15, 10, 10, 15 } };
         return positionValues[x][y];
     }
 

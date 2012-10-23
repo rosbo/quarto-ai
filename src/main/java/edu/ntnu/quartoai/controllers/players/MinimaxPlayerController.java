@@ -30,7 +30,7 @@ public class MinimaxPlayerController extends PlayerController {
         if (set.getPieces().size() > 12 || set.getPieces().size() < 1) {
             return novicePlayerController.choosePieceToGive(game);
         } 
-        Action nextAction = minimaxCalculator.alphaBeta(game,2,null);
+        Action nextAction = minimaxCalculator.alphaBeta(game,depth,null);
         return nextAction.piece;
     }
 
@@ -40,7 +40,7 @@ public class MinimaxPlayerController extends PlayerController {
         if (set.getPieces().size() > 12 || set.getPieces().size() < 1) {
             return novicePlayerController.chooseNextAction(game, piece);
         }
-        return minimaxCalculator.alphaBeta(game, 2, piece);
+        return minimaxCalculator.alphaBeta(game, depth, piece);
     }
 
 }
