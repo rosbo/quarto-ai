@@ -1,16 +1,11 @@
 package edu.ntnu.quartoai.minimax;
 
+import com.google.inject.Inject;
+import edu.ntnu.quartoai.models.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.google.inject.Inject;
-
-import edu.ntnu.quartoai.models.Action;
-import edu.ntnu.quartoai.models.Board;
-import edu.ntnu.quartoai.models.Game;
-import edu.ntnu.quartoai.models.Piece;
-import edu.ntnu.quartoai.models.Set;
 
 public class MinimaxCalculator {
 
@@ -26,15 +21,16 @@ public class MinimaxCalculator {
         Set set = game.getSet();
         State state = new State(board, set);
         state.setPieceChosen(pieceChosen);
-        Action nextAction = null;
+
         double v = Double.MIN_VALUE;
         List<State> successors = calculateSuccessors(state);
         for (State successor : successors) {
-            double minimumValueAmongSuccessors = minValue(state, depth - 1, Double.MIN_VALUE, Double.MAX_VALUE, "MIN");
-            successor.setCurrentValue(minimumValueAmongSuccessors);
+            double minimumValueAmongSuccessors = minValue(successor, depth - 1, Double.MIN_VALUE, Double.MAX_VALUE,
+                    "MIN");
             v = Math.max(v, minimumValueAmongSuccessors);
             successor.setCurrentValue(v);
         }
+
         State nextState = null;
         for (State successor : successors) {
             if (successor.getCurrentValue() == v) {
@@ -42,22 +38,18 @@ public class MinimaxCalculator {
                 break;
             }
         }
-        System.out.println("VALUE IS " + v);
-        nextAction = new Action(nextState.getPieceChosen(), nextState.getPositionChosen()[0],
-                        nextState.getPositionChosen()[1]);
-        return nextAction;
+
+        return new Action(nextState.getPieceChosen(), nextState.getPositionChosen()[0],
+                nextState.getPositionChosen()[1]);
     }
 
     private double minValue(State state, int depth, double alpha, double beta, String player) {
 
         if (terminalTest(state)) {
-            System.out.println("MIN FINAL STATE IS " + Double.MIN_VALUE);
-            return Double.MIN_VALUE; // function utility
+            return Double.MAX_VALUE; // function utility
         }
         if (depth == 0) {
-            double eval = evaluate(state, player);
-//            System.out.println("EVALUATE  " + eval);
-            return eval;
+            return evaluate(state, player);
         }
         double v = Double.MAX_VALUE;
         List<State> successors = calculateSuccessors(state);
@@ -77,13 +69,10 @@ public class MinimaxCalculator {
     private double maxValue(State state, int depth, double alpha, double beta, String player) {
 
         if (terminalTest(state)) {
-//            System.out.println("MAX FINAL IS" + Double.MAX_VALUE);
-            return Double.MAX_VALUE; // function utility
+            return Double.MIN_VALUE; // function utility
         }
         if (depth == 0) {
-            double eval = evaluate(state, player);
-//            System.out.println("EVALUATE  " + eval);
-            return eval;
+            return evaluate(state, player);
         }
         double v = Double.MIN_VALUE;
         List<State> successors = calculateSuccessors(state);
@@ -110,11 +99,11 @@ public class MinimaxCalculator {
         Board board = state.getBoard();
         Set set = state.getSet();
         List<State> successors = new ArrayList<State>();
-        Collections.shuffle(successors);
         List<Piece> piecesLeft = set.getPieces();
         Collections.shuffle(piecesLeft);
         List<int[]> positionsLeft = board.getFreePositions();
-        if (state.getPieceChosen() == null) {
+
+        /*if (state.getPieceChosen() == null) {
             for (Piece piece : piecesLeft) {
                 for (int[] position : positionsLeft) {
                     int x = position[0];
@@ -131,30 +120,31 @@ public class MinimaxCalculator {
                     }
                 }
             }
-        } else {
+        } else {*/
             Piece pieceChosen = state.getPieceChosen();
             for (int[] position : positionsLeft) {
                 int x = position[0];
                 int y = position[1];
-                Board newBoard = board.copy();
-                Set newSet = set.copy();
-                if (!newBoard.contains(pieceChosen)) {
-                    newBoard.setPiece(pieceChosen, x, y);
-                    newSet.remove(pieceChosen);
-                    State child = new State(newBoard, newSet);
-                    child.setPieceChosen(pieceChosen);
-                    child.setPositionChosen(position);
-                    successors.add(child);
+                if (!board.contains(pieceChosen)) {
+                    set.remove(pieceChosen);
+                    for(Piece pieceToGive : set.getPieces()){
+                        Board newBoard = board.copy();
+                        Set newSet = set.copy();
+                        newBoard.setPiece(pieceChosen, x, y);
+                        State child = new State(newBoard, newSet);
+                        child.setPieceChosen(pieceToGive);
+                        child.setPositionChosen(position);
+                        successors.add(child);
+                    }
                 }
             }
-        }
+        //}
         return successors;
     }
 
     public double evaluate(State state, String player) {
         double eval = this.stateEvaluator.evaluate(state, player);
-        if(player.equals("MIN"));
-        {
+        if (player.equals("MIN")) {
             eval = eval * (-1);
         }
         return eval;
