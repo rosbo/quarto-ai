@@ -2,21 +2,21 @@ package edu.ntnu.quartoai.controllers.players;
 
 import com.google.inject.assistedinject.Assisted;
 import edu.ntnu.quartoai.models.Action;
-import edu.ntnu.quartoai.models.Piece;
 import edu.ntnu.quartoai.models.Game;
+import edu.ntnu.quartoai.models.Piece;
+import edu.ntnu.quartoai.utils.BReader;
 import edu.ntnu.quartoai.utils.Logger;
 
 import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HumanPlayerController extends PlayerController {
 
     private final Logger logger;
-    private final BufferedReader bufferedReader;
+    private final BufferedReader bufferedReader = BReader.get();
 
 
     @Inject
@@ -24,8 +24,6 @@ public class HumanPlayerController extends PlayerController {
         super(number, "human");
 
         this.logger = logger;
-
-        bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
@@ -48,11 +46,6 @@ public class HumanPlayerController extends PlayerController {
         int x, y;
         try {
             String input = bufferedReader.readLine();
-
-            // Manage the input signal "."
-            if(input.equals(".")){
-                input = bufferedReader.readLine();
-            }
 
             Pattern pattern = Pattern.compile("([0-9])");
             Matcher matcher = pattern.matcher(input);
