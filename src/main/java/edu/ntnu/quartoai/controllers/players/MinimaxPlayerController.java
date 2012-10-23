@@ -32,17 +32,19 @@ public class MinimaxPlayerController extends PlayerController {
         if (set.getPieces().size() > 14 || set.getPieces().size() < 1) {
             return novicePlayerController.choosePieceToGive(game);
         } 
-        Action nextAction = minimaxCalculator.alphaBeta(game,depth,null);
+        System.out.println("MIN MAX MODE PIETO GIVE");
+        Action nextAction = minimaxCalculator.alphaBeta(game,2,null);
         return nextAction.piece;
     }
 
     @Override
     public Action chooseNextAction(Game game, Piece piece) {
         Set set = game.getSet();
-        if (set.getPieces().size() > 14 || set.getPieces().size() < 1) {
+        if (set.getPieces().size() > 4 || set.getPieces().size() < 1) {
             return novicePlayerController.chooseNextAction(game, piece);
         }
-        Action nextAction = minimaxCalculator.alphaBeta(game, depth, piece);
+        System.out.println("MIN MAX MODE NEXT ACTION");
+        Action nextAction = minimaxCalculator.alphaBeta(game, 2, piece);
         return nextAction;
     }
 
