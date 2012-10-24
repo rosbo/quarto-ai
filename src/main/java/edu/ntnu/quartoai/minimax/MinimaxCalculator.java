@@ -26,7 +26,7 @@ public class MinimaxCalculator {
         List<State> successors = calculateSuccessors(state);
         for (State successor : successors) {
             double minimumValueAmongSuccessors = minValue(successor, depth - 1, Double.MIN_VALUE, Double.MAX_VALUE,
-                    "MIN");
+                            "MIN");
             v = Math.max(v, minimumValueAmongSuccessors);
             successor.setCurrentValue(v);
         }
@@ -40,7 +40,7 @@ public class MinimaxCalculator {
         }
 
         return new Action(nextState.getPieceChosen(), nextState.getPositionChosen()[0],
-                nextState.getPositionChosen()[1]);
+                        nextState.getPositionChosen()[1]);
     }
 
     private double minValue(State state, int depth, double alpha, double beta, String player) {
@@ -103,50 +103,29 @@ public class MinimaxCalculator {
         Collections.shuffle(piecesLeft);
         List<int[]> positionsLeft = board.getFreePositions();
 
-        /*if (state.getPieceChosen() == null) {
-            for (Piece piece : piecesLeft) {
-                for (int[] position : positionsLeft) {
-                    int x = position[0];
-                    int y = position[1];
+        Piece pieceChosen = state.getPieceChosen();
+        for (int[] position : positionsLeft) {
+            int x = position[0];
+            int y = position[1];
+            if (!board.contains(pieceChosen)) {
+                set.remove(pieceChosen);
+                for (Piece pieceToGive : set.getPieces()) {
                     Board newBoard = board.copy();
                     Set newSet = set.copy();
-                    if (!newBoard.contains(piece)) {
-                        newBoard.setPiece(piece, x, y);
-                        newSet.remove(piece);
-                        State child = new State(newBoard, newSet);
-                        child.setPieceChosen(piece);
-                        child.setPositionChosen(position);
-                        successors.add(child);
-                    }
+                    newBoard.setPiece(pieceChosen, x, y);
+                    State child = new State(newBoard, newSet);
+                    child.setPieceChosen(pieceToGive);
+                    child.setPositionChosen(position);
+                    successors.add(child);
                 }
             }
-        } else {*/
-            Piece pieceChosen = state.getPieceChosen();
-            for (int[] position : positionsLeft) {
-                int x = position[0];
-                int y = position[1];
-                if (!board.contains(pieceChosen)) {
-                    set.remove(pieceChosen);
-                    for(Piece pieceToGive : set.getPieces()){
-                        Board newBoard = board.copy();
-                        Set newSet = set.copy();
-                        newBoard.setPiece(pieceChosen, x, y);
-                        State child = new State(newBoard, newSet);
-                        child.setPieceChosen(pieceToGive);
-                        child.setPositionChosen(position);
-                        successors.add(child);
-                    }
-                }
-            }
-        //}
+        }
+        // }
         return successors;
     }
 
     public double evaluate(State state, String player) {
         double eval = this.stateEvaluator.evaluate(state, player);
-        if (player.equals("MIN")) {
-            eval = eval * (-1);
-        }
         return eval;
     }
 
