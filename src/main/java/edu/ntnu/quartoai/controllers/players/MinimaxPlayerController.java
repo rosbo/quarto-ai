@@ -27,7 +27,7 @@ public class MinimaxPlayerController extends PlayerController {
     @Override
     public Piece choosePieceToGive(Game game) {
         Set set = game.getSet();
-        if (set.getPieces().size() > 12 || set.getPieces().size() < 1) {
+        if (set.getPieces().size() > 11 || set.getPieces().size() < 1) {
             return novicePlayerController.choosePieceToGive(game);
         } 
         Action nextAction = minimaxCalculator.alphaBeta(game,depth,null);
@@ -37,7 +37,7 @@ public class MinimaxPlayerController extends PlayerController {
     @Override
     public Action chooseNextAction(Game game, Piece piece) {
         Set set = game.getSet();
-        if (set.getPieces().size() > 12 || set.getPieces().size() < 1) {
+        if (set.getPieces().size() > 11 || set.getPieces().size() < 1) {
             return novicePlayerController.chooseNextAction(game, piece);
         }
         return minimaxCalculator.alphaBeta(game, depth, piece);
